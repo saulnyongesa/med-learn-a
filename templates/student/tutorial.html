@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ tutorial.name }}</title>
+    <link rel="icon" href="{% static 'images/logo.jpg' %}" type="image/jpeg">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'css/student-course.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+</head>
+
+<body>
+    {% include 'student/header.html' %}
+    {% for message in messages %}
+    <p class="alert alert-dismissible bg-info text-center m-auto" style="width: 90%; margin-bottom: 10px">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong {% if message.tags %} class="{{ message.tags }} text-capitalize" {% endif %}>
+            {{ message }}
+        </strong>
+    </p>
+    {% endfor %}
+    <section class="course-main row pl-3">
+        {% include 'student/nav-vertical-for-tutorial.html' %}
+        <!-- Course Content Start -->
+        <div class="col-md-10 col-sm-12 card">
+            <div class="card-header">
+                <h1>
+                    {{ tutorial.name }}
+                    <a class="float-right btn btn-dark text-white">
+                        Author:
+                        {{ tutorial.user.last_name }} {{ tutorial.user.first_name }}
+                    </a>
+                </h1>
+                <p>{{tutorial.description|linebreaks}}</p>
+            </div>
+            {% for topic in topics %}
+            <div class="card-body">
+                <h3>{{topic.name}}</h3>
+                <p>{{topic.notes|linebreaks}}</p>
+            </div>
+            {% endfor %}
+            <div class="card-footer">
+                <h5>Downloads</h5>
+                {% for attachment in attachments %}
+                <a href="" download="../../TutorialAttachments/birthcertificate.pdf">{{attachment.file_name}}
+                    {{attachment.attachment}}</a> <br>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Course Content End -->
+    </section>
+    {% include 'footer.html' %}
+    <script src="{% static 'js/global.js' %}"></script>
+    <script src="{% static 'js/student-course.js' %}"></script>
+    <script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+</body>
+
+</html>

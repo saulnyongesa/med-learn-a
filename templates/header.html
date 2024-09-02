@@ -1,0 +1,61 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/student-nav.css' %}">
+
+<!-- Header Start  -->
+<section id="header" class="header d-flex">
+    <!-- Navbar Vertical Start -->
+    <nav id="nav-vertical" class="nav-vertical d-none">
+        <div class="logo-nav-brand-holder p-3 d-flex">
+            <img class="logo" src="{% static 'images/logo.jpg' %}" alt="" sizes="" srcset="">
+            <p class="navbar-brand flex-grow-1 pr-3">MED LEARN</p>
+            <button id="nav-vertical-hide-toggler" class="nav-toggler btn btn-light">
+                <img class="w-100" src="{% static 'images/bar-close.svg '%}" alt="MENU">
+            </button>
+        </div>
+        <div class="nav-items-vertical">
+            <ul class="list-unstyled">
+                <li class="w-100 p-1">
+                    <a class="btn btn-primary text-dark w-100" href="">Home</a>
+                </li>
+                <li class="w-100 p-1">
+                    <a class="btn btn-success text-white w-100" href="">About Us</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Navbar Vertical End -->
+
+    <!-- Navbar Horizontal Start -->
+    <nav id="nav-horizontal" class="nav-horizontal pl-4 row">
+        <div id="nav-horizontal-logo-brand-holder" class="logo-nav-brand-holder col-sm-12 col-md-3 d-flex ">
+            <img class="logo" src="{% static 'images/logo.jpg' %}" alt="" sizes="" srcset="">
+            <p class="navbar-brand flex-grow-1 pr-3">MED LEARN</p>
+            <button id="nav-vertical-show-toggler" class="nav-toggler btn btn-light">
+                <img class="w-100" src="{% static 'images/bar.svg' %}" alt="MENU">
+            </button>
+        </div>
+        <div class="nav-items-horizontal col-sm-12 col-md-9 d-flex">
+            <ul class="list-unstyled d-flex w-100">
+                <li>
+                    <input class="p-2 form-control" type="text" id="search" placeholder="Search Tutorial">
+                </li>
+
+                <li>
+                    <button id="pop-up-signin-signup-show-btn" class="btn btn-light">Sign In/Sign Up</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Navbar Horizontal End -->
+</section>
+<section class="bg-success w-75 m-auto">
+    <h4 class="w-100 d-none text-center text-white font-weight-bolder" id="result-header">
+        Search Result
+    </h4>
+    <div class="w-100" id="result-holder">
+
+    </div>
+</section><br>
+
+<!-- Header End -->
+<script src="{% static 'js/student-nav.js' %}"></script>

@@ -1,0 +1,61 @@
+.create-cat-pop-up-main{
+    width: 100%;
+    min-height: 10vh;
+    position: absolute;
+    z-index: 1000;
+}
+.create-cat-pop-up-main div form{
+    background-color: black;
+}
+.create-cat-pop-up-main div img{
+    position: relative;
+    float: right;
+    border-radius: 50%;
+}
+.create-cat-pop-up-main div img:hover{
+    border: 3px solid green;
+    border-radius: 49%;
+}
+.create-cat-pop-up-main div label{
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+.create-cat-pop-up-main div p{
+    text-align: center;
+    color: white;
+    padding-top: 20px;
+}
+
+.cat-container .cat-container-card-holder{
+    height: 70vh;
+    overflow: auto;
+}
+.cat-container .cat-container-card-holder card{
+    min-height: 20vh;
+}
+
+/*Cat View*/
+.cat-main {
+    height: 100vh;
+    overflow: auto;
+}
+.cat-main .card{
+    width: 100%;
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+}
+.cat-main .card .card-header h1{
+    font-weight: bolder;
+}
+.cat-main .card .card-body{
+    border-radius: 10px;
+}
+.cat-main .card .card-body h3{
+    font-weight: bolder;
+}
+.cat-main .card .card-body p{
+   text-align: justify;
+    color: white;
+}

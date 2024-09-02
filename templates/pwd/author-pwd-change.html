@@ -1,0 +1,17 @@
+{% extends 'pwd/main.html' %}
+{% load crispy_forms_filters %}
+{% block content %}
+<form class="card w-50 m-auto" method="post">
+    {% csrf_token %}
+    <div class="card-header">
+        <h3 class="text-center text-info text-capitalize">Hi {{request.user.last_name}}, You are about to change your password.
+        </h3>
+    </div>
+    <div class="card-body">
+        {{ form|crispy }}
+    </div>
+    <div class="card-footer d-flex">
+        <input class="w-25 m-auto btn btn-primary" type="submit" value="Save">
+    </div>
+</form>
+{% endblock %}

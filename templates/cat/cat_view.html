@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tutorial Name</title>
+    <link rel="icon" href="{% static 'images/logo.jpg' %}" type="image/jpeg">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'css/exams.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+</head>
+
+<body>
+{% include 'student/header.html' %}
+{% for message in messages %}
+    <p class="alert alert-dismissible bg-info text-center m-auto" style="width: 90%; margin-bottom: 10px">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong {% if message.tags %} class="{{ message.tags }} text-capitalize" {% endif %}>
+            {{ message }}
+        </strong>
+    </p>
+{% endfor %}
+<section class="cat-main p-3">
+    <!-- Course Content Start -->
+    <div class="card">
+        <div class="card-header bg-success">
+            <h1>
+                {{ cat.name }}
+                <a href="{% url 'cat-edit-url' cat.id %}"
+                   class="float-right btn btn-dark text-white">Edit</a>
+            </h1>
+        </div>
+        {% for question in questions %}
+            <div class="card-body bg-dark m-2">
+                <h3>{{ question.question }}</h3>
+                <form id="form-{{ question.id }}" class="w-100" method="post">
+                    {% csrf_token %}
+                    {% for answer in answers %}
+                        {% if answer.question == question %}
+                            <label for="answer">
+                                <input type="radio" value="{{ answer.id }}" name="answer-id">
+                                {{ answer.answer }}
+                            </label> <br>
+                        {% endif %}
+                    {% endfor %}
+                    <p id="saved-{{ question.id }}" class="text-success d-none">Saved</p>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+    <!-- Course Content End -->
+</section>
+
+{% include 'footer.html' %}
+<script src="{% static 'js/global.js' %}"></script>
+<script src="{% static 'js/submit_cat.js' %}"></script>
+<script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>
+<script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+</body>
+
+</html>

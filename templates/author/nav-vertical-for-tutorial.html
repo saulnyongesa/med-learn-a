@@ -1,0 +1,14 @@
+  <!-- Navbar Vertical Start -->
+  <nav class="nav-vertical overflow-auto bg-success col-md-2 col-sm-12">
+    <h1>Topics</h1>
+    <div class="nav-items-vertical">
+        <ul class="list-unstyled">
+             {% for topic in topics %}
+            <li class="w-100 p-1">
+                <a class="btn btn-link text-light text-left w-100" href="">{{ topic.name }}</a>
+            </li>
+            {% endfor %}            
+        </ul>
+    </div>
+</nav>
+<!-- Navbar Vertical End -->

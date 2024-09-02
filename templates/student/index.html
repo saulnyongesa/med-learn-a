@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ request.user.username }} Dashboard</title>
+    <link rel="icon" href="{% static 'images/logo.jpg' %}" type="image/jpeg">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'css/student-index.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+</head>
+
+<body class="">
+{% include 'student/header.html' %}
+{% for message in messages %}
+    <p class="alert alert-dismissible bg-info text-center m-auto" style="width: 90%; margin-bottom: 10px">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong {% if message.tags %} class="{{ message.tags }} text-capitalize" {% endif %}>
+            {{ message }}
+        </strong>
+    </p>
+{% endfor %}
+
+<!--Create A Tutorial  -->
+<section id="create-tutorial-pop-up" class="create-tutorial-pop-up-main container-fluid d-none">
+    <div id="create-tutorial-pop-up-inner" class="d-block m-auto w-100 p-2" >
+        <img id="create-tutorial-pop-up-hide-btn" class="bg-light" src="{% static 'images/bar-close.svg '%}"
+             alt="Close">
+        <h3 class="text-center text-success">CREATE TUTORIAL</h3>
+        {% csrf_token %}
+        <h2 class="text-left text-white">
+            Type Tutorial Name <br>
+            <input class="form-control" type="text" id="create-tutorial-name">
+        </h2> <br>
+        <h2 class="text-left text-white">
+            Type Brief Description <br>
+            <textarea class="w-100 p-2" id="create-tutorial-description" rows="10"></textarea>
+        </h2>
+
+        <button id="save-tutorial-created-btn" class="form-control btn-success">Save</button>
+
+    </div>
+</section>
+<!-- Create A Tutorial End  -->
+
+
+{#====Recently Viewed Start====#}
+{% if my_tutorials %}
+    <section class="tutorial-container container">
+        <h4 class="tutorial-container-header bg-success pt-4 pb-4 pr-1 pl-1">
+            Recently Viewed
+        </h4>
+        <div class="tutorial-container-card-holder flex pt-4 pb-4">
+            <!-- Tutorial Start  -->
+            {% for tutorial in my_tutorials %}
+                <div class="card">
+                    <div class="card-footer">
+                        <h5 class="font-weight-bolder">
+                            {{ tutorial.tutorial.name }}
+                            <a class="btn btn-danger float-right" href="{% url 'student-tutorial-rm-rv-url' tutorial.tutorial.id %}">Remove</a>
+                        </h5>
+                        <p>{{ tutorial.tutorial.description|slice:":100" }}{% if tutorial.tutorial.description|length > 100 %}...{% endif %}</p>
+                        <a class="btn btn-success w-100" href="{% url 'student-tutorial-url' tutorial.tutorial.id %}">Continue Learning</a>
+                    </div>
+                </div>
+            {% endfor %}
+            <!-- Tutorial End  -->
+        </div>
+    </section>
+{% endif %}
+{#====Recently Viewed End====#}
+
+{#====Latest Tutorial Start====#}
+<section class="tutorial-container container" style="width: 100vw">
+    <div class="tutorial-container-header bg-info pt-4 pb-4 pr-1 pl-1">
+        <h4>Latest Tutorials</h4>
+        <input class="p-2 form-control" type="text" id="search" placeholder="Search Tutorial">
+        <h4 class="d-none" id="result-header">Search Result</h4>
+        <div id="result-holder">
+
+        </div>
+    </div>
+    <div class="tutorial-container-card-holder flex pt-4 pb-4">
+        <!-- Tutorial Start  -->
+        {% for tutorial in tutorials %}
+            <div class="card" style="min-height: 20vh">
+                <div class="card-footer">
+                    <h5 class="font-weight-bolder">
+                        {{ tutorial.name }}
+                        <a class="btn btn-link text-secondary float-right" href="">Publisher: {{ tutorial.user }}</a>
+                    </h5>
+                    <p>{{ tutorial.description|slice:":100" }}{% if tutorial.description|length > 100 %}...{% endif %}</p>
+                    <a class="btn btn-info w-100" href="{% url 'student-tutorial-url' tutorial.id %}">View</a>
+                </div>
+            </div>
+        {% endfor %}
+        <!-- Tutorial End  -->
+    </div>
+</section>
+{#====Latest Tutorial End====#}
+
+{% include 'footer.html' %}
+<script src="{% static 'js/global.js' %}"></script>
+<script src="{% static 'js/student-index.js' %}"></script>
+<script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>
+<script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+{% extends 'pwd/main.html' %}
+{% load crispy_forms_filters %}
+{% block content %}
+    <form class="card w-50 m-auto" method="post">
+        {% csrf_token %}
+        <div class="card-header">
+            <p class="text-center text-info">ENTER EMAIL ASSOCIATED WITH YOUR ACCOUNT</p>
+        </div>
+        <div class="card-body">
+            {{ form|crispy }}
+        </div>
+        <div class="card-footer d-flex">
+            <input class="submit-btn btn btn-primary w-25 m-auto" type="submit" value="Send Reset Link" style="font-size: 10px">
+            <a href="{% url 'sign-in-url' %}" class="btn btn-dark w-25 m-auto" style="font-size: 10px">Back to Login</a>
+        </div>
+    </form>
+{% endblock %}

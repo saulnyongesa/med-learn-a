@@ -1,0 +1,61 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/student-nav.css' %}">
+{% if request.user.is_authenticated %}
+<!-- Header Start  -->
+<section id="header" class="header d-flex">
+    <!-- Navbar Vertical Start -->
+    <nav id="nav-vertical" class="nav-vertical d-none">
+        <div class="logo-nav-brand-holder p-3 d-flex">
+            <img class="logo" src="{% static 'images/logo.jpg' %}" alt="" sizes="" srcset="">
+            <p class="navbar-brand flex-grow-1 pr-3">MED LEARN</p>
+            <button id="nav-vertical-hide-toggler" class="nav-toggler btn btn-light">
+                <img class="w-100" src="{% static 'images/bar-close.svg '%}" alt="MENU">
+            </button>
+        </div>
+        <div class="nav-items-vertical">
+            <ul class="list-unstyled">
+                <li class="w-100 p-1">
+                    <a class="btn btn-primary text-dark w-100" href="">Home</a>
+                </li>
+                <li class="w-100 p-1">
+                    <a class="btn btn-success text-white w-100" href="">Nursing</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Navbar Vertical End -->
+
+    <!-- Navbar Horizontal Start -->
+    <nav id="nav-horizontal" class="nav-horizontal pl-4 row">
+        <div id="nav-horizontal-logo-brand-holder" class="logo-nav-brand-holder col-sm-12 col-md-3 d-flex ">
+            <img class="logo" src="{% static 'images/logo.jpg' %}" alt="" sizes="" srcset="">
+            <p class="navbar-brand flex-grow-1 pr-3">MED LEARN</p>
+            <button id="nav-vertical-show-toggler" class="nav-toggler btn btn-light">
+                <img class="w-100" src="{% static 'images/bar.svg' %}" alt="MENU">
+            </button>
+        </div>
+        <div class="nav-items-horizontal col-sm-12 col-md-9 d-flex">
+            <ul class="list-unstyled d-flex w-100">
+                <li>
+                    <a class="btn btn-light" href="{% url 'student-dashboard-url' %}">Home</a>
+                </li>
+                <li>
+                    <a class="btn btn-light" href="">CATs</a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle btn btn-light text-dark" role="button" data-toggle="dropdown" aria-expanded="false">{{ request.user.last_name }} {{ request.user.first_name }}</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item text-center" href="{% url 'student-profile-url' %}">My Profile</a>
+                        <a class="dropdown-item text-center" href="{% url 'student-change-pwd-url' %}">Change Password</a>
+                        <a class="dropdown-item text-center text-danger" href="{% url 'student-sign-out-url' %}">Sign Out</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+    <!-- Navbar Horizontal End -->
+</section>
+<!-- Header End -->
+{% endif %}
+<script src="{% static 'js/student-nav.js' %}"></script>

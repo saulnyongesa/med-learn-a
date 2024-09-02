@@ -1,0 +1,30 @@
+.pop-up-signin-signup{
+    width: 100%;
+    top: 10vh;
+    position: absolute;
+    z-index: 1000;
+}
+.pop-up-signin-signup form{
+    background-color: black;
+}
+.pop-up-signin-signup form img{
+    position: relative;
+    float: right;
+    border-radius: 50%;
+}
+.pop-up-signin-signup form img:hover{
+    border: 3px solid green;
+    border-radius: 49%;
+}
+.pop-up-signin-signup form label{
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+.pop-up-signin-signup form p{
+    text-align: center;
+    color: white;
+    padding-top: 20px;
+}
+
+

@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: normal;
+    font-size: 14px;
+}
+
+/*MESSAGES=======================================*/
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+/* INDEX/HOME DASHBOARD  */
+.dashboard-main {
+    width: 100%;
+}
+
+.dashboard-main .dashboard-header {
+    color: white;
+    width: 100%;
+}
+
+.my-tutorial,
+.latest-tutorial,
+.blogs {
+    width: 100%;
+    padding: 10px;
+}
+
+.my-tutorial .card {
+    height: fit-content;
+    margin: 10px;
+    border: none;
+}
+
+.my-tutorial .card .card-footer {
+    background-color: rgba(54, 53, 53, 0.63);
+    color: white;
+    padding: 10px;
+    text-align: justify;
+}
+
+.my-tutorial .card .card-footer h5 {
+    color: black;
+    font-weight: bolder;
+}
+
+
+.latest-tutorial .card {
+    height: fit-content;
+    margin: 10px;
+    border: none;
+}
+
+.latest-tutorial .card .card-footer {
+    background-color: rgba(54, 53, 53, 0.63);
+    color: white;
+    padding: 10px;
+}
+
+.latest-tutorial .card .card-footer h5 {
+    color: black;
+    font-weight: bolder;
+}
+
+.blogs .card {
+    width: 50vh;
+    height: fit-content;
+    margin: 10px;
+    border: none;
+}
+
+.blogs .card .card-footer {
+    background-color: rgba(54, 53, 53, 0.63);
+    color: white;
+    padding: 10px;
+}
+
+.blogs .card .card-footer h5 {
+    color: black;
+    font-weight: bolder;
+}
+
+/* The entire scrollbar */
+::-webkit-scrollbar {
+    width: 12px; /* width of the scrollbar */
+    height: 12px; /* height of the scrollbar (horizontal) */
+}
+
+/* The scrollbar track (background) */
+::-webkit-scrollbar-track {
+    background: #131311;
+    border-radius: 10px;
+}
+
+/* The scrollbar handle (thumb) */
+::-webkit-scrollbar-thumb {
+    background: rgba(80, 77, 77, 0.86);
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #201f1f;
+}
+
+/*Footer*/
+.footer{
+    width: 100vw;
+    min-height: 30vh;
+    background-color: black;
+    margin-top: 50px;
+}

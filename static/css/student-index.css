@@ -1,0 +1,36 @@
+.create-tutorial-pop-up-main{
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    z-index: 1000;
+}
+.create-tutorial-pop-up-main div{
+    background-color: black;
+}
+.create-tutorial-pop-up-main div img{
+    position: relative;
+    float: right;
+    border-radius: 50%;
+}
+.create-tutorial-pop-up-main div img:hover{
+    border: 3px solid green;
+    border-radius: 49%;
+}
+.create-tutorial-pop-up-main div label{
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+.create-tutorial-pop-up-main div p{
+    text-align: center;
+    color: white;
+    padding-top: 20px;
+}
+
+.tutorial-container .tutorial-container-card-holder{
+    height: 70vh;
+    overflow: auto;
+}
+.tutorial-container .tutorial-container-card-holder card{
+    min-height: 20vh;
+}

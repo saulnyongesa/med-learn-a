@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Med Learn Kenya</title>
+    <link rel="icon" href="{% static 'images/logo.jpg' %}" type="image/jpeg">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'css/student-home.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+</head>
+
+<body class="">
+{% include 'header.html' %}
+{% load crispy_forms_filters %}
+{% for message in messages %}
+    <p class="alert alert-dismissible bg-info text-center m-auto" style="width: 90%; margin-bottom: 10px">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong {% if message.tags %} class="{{ message.tags }} text-capitalize" {% endif %}>
+            {{ message }}
+        </strong>
+    </p>
+{% endfor %}
+<!-- Signup Signin form  -->
+<section id="pop-up-signin-signup" class="pop-up-signin-signup container-fluid d-none">
+    <!-- Signin form  -->
+    <form id="pop-up-signin-form" class="d-block m-auto w-100 p-4" action="{% url 'sign-in-url' %}"
+          method="post">
+        <img id="pop-up-signin-signup-hide-btn" class="bg-light" src="{% static 'images/bar-close.svg '%}"
+             alt="Close">
+        <h3 class="text-center text-success">LOGIN</h3>
+        {% csrf_token %}
+        <label for="username" class="">
+            Username <br>
+            <input class="form-control" type="text" name="username" id="email">
+        </label> <br>
+        <label for="password">
+            Password <br>
+            <input class="form-control" type="password" name="password" id="password">
+        </label>
+        <input class="form-control btn-success" type="submit" value="Proceed">
+        <p>
+            You Don't Have An Account?
+            <a class="btn btn-link text-info" id="pop-up-signup-form-btn">Signup</a>
+        </p>
+    </form>
+    <!-- Sign up form  -->
+    <form id="pop-up-signup-form" class="d-none m-auto w-100 p-4" action="{% url 'sign-up-url' %}"
+          method="post">
+        <h3 class="text-center text-success">SIGNUP</h3>
+        {% csrf_token %}
+        {{form|crispy}}
+        <p id="password-error1" class="w-100 text-danger text-center d-none"></p>
+        <label for="password">
+            Password <br>
+            <input class="form-control" type="password" name="password" id="password">
+        </label>
+        <p id="password-error2" class="w-100 text-danger text-center d-none"></p>
+        <label for="confirm-password">
+            Re-type Password <br>
+            <input class="form-control" type="password" name="confirm-password" id="confirm-password">
+        </label>
+        <input class="form-control btn-success" type="submit" value="Submit">
+        <p>
+            Have An Account? <br>
+            <a class="btn btn-link text-info" id="pop-up-signin-form-btn">Signin</a>
+        </p>
+    </form>
+</section>
+<!-- Signup Signin End  -->
+{#====Tutorials Start====#}
+{% if tutorials %}
+    <section class="tutorial-container container">
+        <div class="tutorial-container-header bg-success pt-4 pb-4 pr-1 pl-1">
+            <h4>Tutorials</h4>           
+        </div>
+        <div class="tutorial-container-card-holder flex pt-4 pb-4">
+            <!-- Tutorial Start  -->
+            {% for tutorial in tutorials %}
+                <div class="card">
+                    <div class="card-footer">
+                        <h5 class="font-weight-bolder">
+                            {{ tutorial.name }}
+                            <a class="btn btn-link text-secondary float-right" href="">Publisher: {{ tutorial.user }}</a>
+                        </h5>
+                        <p>{{ tutorial.description|slice:":100" }}{% if tutorial.description|length > 100 %}...{% endif %}</p>
+                        <a class="btn btn-success w-100" href="{% url 'student-tutorial-url' tutorial.id %}">Open</a>
+                    </div>
+                </div>
+            {% endfor %}
+            <!-- Tutorial End  -->
+        </div>
+    </section>
+{% else %}
+    <section class="container d-flex" style="height: 70vh">
+        <h1 class="m-auto text-center btn btn-secondary">No Tutorial Published</h1>
+    </section>
+{% endif %}
+{#====Tutorials End====#}
+
+
+{% include 'footer.html' %}
+<script src="{% static 'js/global.js' %}"></script>
+<script src="{% static 'js/home.js' %}"></script>
+<script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>
+<script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+</body>
+
+</html>
