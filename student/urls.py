@@ -14,6 +14,15 @@ urlpatterns += [
     path('Profile/Edit/', views.profile_edit, name='student-profile-edit-url'),
     path('Signout/', views.sign_out, name='student-sign-out-url'),
 ]
+# Exams Url==================================================================
+urlpatterns += [
+    path('Cat/Home/', views.cat_home, name='student-cat-home-url'),
+    path('Cat/View/<pk>/', views.cat_view, name='student-cat-view-url'),
+    path('Search/Cat/', views.cat_search, name='student-cat-search-url'),
+    path('Cat/Response/Save/<pk>', views.cat_response_save, name='student-cat-response-save-url'),
+    path('Cat/Submit/<pk>', views.cat_submission, name='student-cat-submit-url'),
+
+]
 
 # Password and account related urls===========================================
 urlpatterns += [

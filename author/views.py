@@ -1,3 +1,5 @@
+from http.client import responses
+
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -282,10 +284,14 @@ def cat_view(request, pk):
             cat = Cat.objects.get(id=pk)
             questions = Question.objects.filter(cat=cat)
             answers = Answer.objects.all()
+            user_responses = Response.objects.filter(
+                user=request.user,
+            )
             context = {
                 'cat': cat,
                 'questions': questions,
-                'answers': answers
+                'answers': answers,
+                'responses': user_responses
             }
             return render(request, 'cat/cat_view.html', context)
         except Cat.DoesNotExist:
@@ -310,6 +316,7 @@ def cat_publish_conceal(request, pk):
     if not user.are_you_a_student:
         try:
             cat = Cat.objects.get(id=pk)
+            cat.cat_id = str(request.user.username)+ '/' + str(cat.id)
             cat.is_published = not cat.is_published
             cat.save()
             if cat.is_published:
@@ -347,13 +354,24 @@ def cat_response_save(request, pk):
         if request.method == 'POST':
             question = Question.objects.get(id=pk)
             answer_id = request.POST.get('answer-id')
-            response = Response.objects.create(
-                user=request.user,
-                question=question,
-                answer_id=answer_id
-            )
-            response.save()
-            return JsonResponse({'success': True})
+            try:
+                response = Response.objects.get(
+                    user=request.user,
+                    question=question,
+                )
+                response.answer_id=answer_id
+                response.is_correct = True if response.answer.is_correct_answer else False
+                response.save()
+                return JsonResponse({'success': True})
+            except Response.DoesNotExist:
+                response = Response.objects.create(
+                    user=request.user,
+                    question=question,
+                    answer_id=answer_id,
+                )
+                response.is_correct = True if response.answer.is_correct_answer else False
+                response.save()
+                return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': False}, status=400)
     else:

@@ -47,6 +47,7 @@ class MyTutorial(models.Model):
 
 # Cat
 class Cat(models.Model):
+    cat_id = models.CharField(max_length=100, null=True, unique=True)
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True, )
     start = models.DateTimeField(null=True)
@@ -78,7 +79,15 @@ class Response(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, null=True, on_delete=models.CASCADE)
     answer = models.ForeignKey(Answer, null=True, on_delete=models.CASCADE)
-    is_correct = models.BooleanField(default=True)
+    is_selected = models.BooleanField(default=True)
 
     def __str__(self):
         return self.answer.answer + '--' + self.question.question + '---' + self.question.cat.name
+
+class CatSubmit(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    cat = models.ForeignKey(Cat, null=True, on_delete=models.CASCADE)
+    is_submitted = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.cat.name

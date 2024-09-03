@@ -56,7 +56,7 @@
                 Your CATs
                 <button id="create-cat-pop-up-show-btn" class="float-right btn btn-light">Create Tutorial</button>
             </h4>
-            <input class="p-2 m-1 form-control" type="text" id="search" placeholder="Search Your Tutorial">
+            <input class="p-2 m-1 form-control" type="text" id="search" placeholder="Search Your CATs">
             <h4 class="d-none" id="result-header">Search Result</h4>
             <div id="result-holder">
 
@@ -67,7 +67,7 @@
                 <div class="card">
                     <div class="card-footer">
                         <h5 class="font-weight-bolder">
-                            <span class="p-2 btn btn-secondary">Id: {{ cat.id }}</span>
+                            <span class="p-2 btn btn-secondary">Id: {{ cat.cat_id }}</span>
                             {% if cat.is_published %}
                                 <a class="btn btn-danger float-right" href="{% url 'cat-conceal-publish-url' cat.id %}">Conceal</a>
                             {% else %}

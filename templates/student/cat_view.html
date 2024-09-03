@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tutorial Name</title>
+    <title>{{ cat.name }}</title>
     <link rel="icon" href="{% static 'images/logo.jpg' %}" type="image/jpeg">
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <link rel="stylesheet" href="{% static 'css/exams.css' %}">
@@ -13,7 +13,7 @@
 </head>
 
 <body>
-{% include 'author/header.html' %}
+{% include 'student/header.html' %}
 {% for message in messages %}
     <p class="alert alert-dismissible bg-info text-center m-auto" style="width: 90%; margin-bottom: 10px">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -26,11 +26,15 @@
     <!-- Course Content Start -->
     <div class="card">
         <div class="card-header bg-success">
-            <h1>
+            <h3 class="font-weight-bolder">
                 {{ cat.name }}
-                <a href="{% url 'cat-edit-url' cat.id %}"
-                   class="float-right btn btn-dark text-white">Edit</a>
-            </h1>
+                <span class="float-right btn btn-dark text-left">   
+                    TIME VIEW <br>
+                    <p class="font-weight-bolder">Start Time: {{ cat.end }}</p>
+                    <p class="font-weight-bolder">End Time: {{ cat.end }}</p>
+                    <p class="text-info font-weight-bolder" id="remaining-time"></p> <br>
+                </span>
+            </h3>
         </div>
         {% for question in questions %}
             <div class="card-body bg-dark m-2">
@@ -47,10 +51,13 @@
                                         {% for response in  responses %}
                                             {% if response.answer == answer %}
                                                 {% if response %}
-                                                                                checked
+                                        checked
                                                 {% endif %}
                                             {% endif %}
                                         {% endfor %}
+                                        {% if end_time_check  %}
+                                        disabled
+                                        {% endif %}
                                 >
                                 {{ answer.answer }}
                             </label> <br>
@@ -60,13 +67,36 @@
                 </form>
             </div>
         {% endfor %}
-        <button class="btn btn-success">Submit and Mark As Completed</button>
+        <div class="d-flex">
+            {% if not end_time_check  %}
+                <a href="{% url 'student-cat-submit-url' cat.id %}" class="btn btn-success m-auto">Submit</a>
+            {% endif %}
+        </div>
     </div>
-    
+
     <!-- Course Content End -->
 </section>
 
 {% include 'footer.html' %}
+<script>
+    // Convert the Django datetime to a JavaScript Date object
+    var endDateTime = new Date("{{ cat.end|date:'Y-m-d H:i:s' }}").getTime();
+    function updateRemainingTime() {
+        var now = new Date().getTime();
+        var timeRemaining = endDateTime - now;
+        if (timeRemaining > 0) {
+            var minutesRemaining = Math.floor(timeRemaining / (1000 * 60));
+            document.getElementById('remaining-time').innerText = "Time Left: " + minutesRemaining + " minutes";
+        } else {
+            document.getElementById('remaining-time').innerText = "Time has ended.";
+            window.location = '/Student/Cat/Home/'
+        }
+    }
+    // Update the remaining time every minute
+    setInterval(updateRemainingTime, 60000);
+    // Initial update
+    updateRemainingTime();
+</script>
 <script src="{% static 'js/global.js' %}"></script>
 <script src="{% static 'js/submit_cat.js' %}"></script>
 <script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>
