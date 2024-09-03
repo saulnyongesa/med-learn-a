@@ -28,7 +28,7 @@
     <!-- Signin form  -->
     <form id="pop-up-signin-form" class="d-block m-auto w-100 p-4" action="{% url 'sign-in-url' %}"
           method="post">
-        <img id="pop-up-signin-signup-hide-btn" class="bg-light" src="{% static 'images/bar-close.svg '%}"
+        <img id="pop-up-signin-signup-hide-btn" class="bg-light" src="../static/images/bar-close.svg"
              alt="Close">
         <h3 class="text-center text-success">LOGIN</h3>
         {% csrf_token %}
