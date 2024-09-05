@@ -82,25 +82,49 @@ const password_error2 = document.getElementById("password-error2");
 form.addEventListener("submit", function(event) {
     const password = document.getElementById("password").value;
     const confirm_password = document.getElementById("confirm-password").value;
-     // Hide Signin 
-     pop_up_signin_form.classList.add('d-none')
-     pop_up_signin_form.classList.remove('d-block')
-     // Show Signup 
-     pop_up_signup_form.classList.remove('d-none')
-     pop_up_signup_form.classList.add('d-block')
+    
+    let hasError = false; // Track if there are any errors
+
+    // Hide Signin
+    pop_up_signin_form.classList.add('d-none');
+    pop_up_signin_form.classList.remove('d-block');
+    
+    // Show Signup
+    pop_up_signup_form.classList.remove('d-none');
+    pop_up_signup_form.classList.add('d-block');
+
+    // Check password length
     if (password.length < 8) {
         event.preventDefault(); // Prevent form submission
-        password_error1.classList.remove('d-none')
-        password_error1.classList.add('d-flex')
-        password_error1.innerText = "Password length must be at least 8 digits"
+        password_error1.classList.remove('d-none');
+        password_error1.classList.add('d-flex');
+        password_error1.innerText = "Password length must be at least 8 characters";
+        hasError = true;
+    } else {
+        // Hide error if previously shown
+        password_error1.classList.add('d-none');
+        password_error1.classList.remove('d-flex');
     }
+
+    // Check if passwords match
     if (password !== confirm_password) {
         event.preventDefault(); // Prevent form submission
-        password_error2.classList.remove('d-none')
-        password_error2.classList.add('d-flex')
-        password_error2.innerText = "Password and Re-typed Password Don't match"
+        password_error2.classList.remove('d-none');
+        password_error2.classList.add('d-flex');
+        password_error2.innerText = "Password and Re-typed Password Don't match";
+        hasError = true;
+    } else {
+        // Hide error if previously shown
+        password_error2.classList.add('d-none');
+        password_error2.classList.remove('d-flex');
+    }
+
+    // If there are no errors, allow form submission
+    if (!hasError) {
+        form.submit(); // Submit the form if everything is okay
     }
 });
+
 // Search Tutorial
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById('search');
