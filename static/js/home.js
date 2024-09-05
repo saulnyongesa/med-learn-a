@@ -1,5 +1,7 @@
 const pop_up_signin_signup = document.getElementById('pop-up-signin-signup');
 const pop_up_signin_signup_hide_btn = document.getElementById('pop-up-signin-signup-hide-btn');
+const pop_up_signin_signup_hide_btn2 = document.getElementById('pop-up-signin-signup-hide-btn2');
+
 const pop_up_signin_signup_show_btn = document.getElementById('pop-up-signin-signup-show-btn');
 const pop_up_signin_form = document.getElementById('pop-up-signin-form');
 const pop_up_signup_form = document.getElementById('pop-up-signup-form');
@@ -16,6 +18,13 @@ pop_up_signin_signup_show_btn.addEventListener(
 )
 // Hide SigninSignup Popup
 pop_up_signin_signup_hide_btn.addEventListener(
+    'click',
+    function () {
+        pop_up_signin_signup.classList.remove('d-flex')
+        pop_up_signin_signup.classList.add('d-none')
+    }
+)
+pop_up_signin_signup_hide_btn2.addEventListener(
     'click',
     function () {
         pop_up_signin_signup.classList.remove('d-flex')
