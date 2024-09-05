@@ -34,32 +34,50 @@
                 <input class="form-control" type="password" name="password" id="password">
             </label>
             <input class="form-control btn-success" type="submit" value="Proceed">
-            <p>
+            <p class="text-center">
                 You Don't Have An Account?
-                <a class="btn btn-link text-info" id="pop-up-signup-form-btn">Signup</a>
+                <a class="btn  text-info " id="pop-up-signup-form-btn">Signup</a>
             </p>
         </form>
         <!-- Sign up form  -->
         <form id="pop-up-signup-form" class="d-none m-auto w-100 p-4" action="{% url 'sign-up-url' %}" method="post">
-            <img id="pop-up-signin-signup-hide-btn2" class="bg-light" src="../static/images/bar-close.svg" alt="Close"> 
+            <img id="pop-up-signin-signup-hide-btn2" class="bg-light" src="../static/images/bar-close.svg" alt="Close">
             <h3 class="text-center text-success">SIGNUP</h3>
             {% csrf_token %}
-            {{form|crispy}}
-            <p id="password-error1" class="w-100 text-danger text-center d-none"></p>
-            <label for="password">
-                Password <br>
-                <input class="form-control" type="password" name="password" id="password">
-            </label>
-            <p id="password-error2" class="w-100 text-danger text-center d-none"></p>
-            <label for="confirm-password">
-                Re-type Password <br>
-                <input class="form-control" type="password" name="confirm-password" id="confirm-password">
-            </label>
+            <div class="row w-100">
+                <div class="col-sm-12 col-md-8">
+                    <h3 class="text-center text-white">Personal Information</h3>
+                    {{form|crispy}}
+                </div>
+                <div class="col-sm-12 col-md-4">
+                    <h3 class="text-center text-white">Authentication</h3>
+                    <label for="user_type">
+                        User type<sup>* </sup> <br>
+                        <select class="form-control" name="user-type" id="user_type" required>
+                            <option value="">Who are you? Choose Below.</option>
+                            <option value="1">Student</option>
+                            <option value="0">Trainer/Author</option>
+                        </select>
+                    </label>
+                    <p id="password-error1" class="w-100 text-danger text-center d-none"></p>
+                    <label for="password">
+                        Password <br>
+                        <input class="form-control" type="password" name="password" id="password">
+                    </label>
+                    <p id="password-error2" class="w-100 text-danger text-center d-none"></p>
+                    <label for="confirm-password">
+                        Re-type Password <br>
+                        <input class="form-control" type="password" name="confirm-password" id="confirm-password">
+                    </label>
+                    <p class="text-center">
+                        Have An Account? <br>
+                        <a class="btn btn-link text-info" id="pop-up-signin-form-btn">Signin</a>
+                    </p>
+                    
+                </div>
+            </div>
             <input class="form-control btn-success" type="submit" value="Submit">
-            <p>
-                Have An Account? <br>
-                <a class="btn btn-link text-info" id="pop-up-signin-form-btn">Signin</a>
-            </p>
+            
         </form>
     </section>
     <!-- Signup Signin End  -->
@@ -124,7 +142,6 @@
     {% endif %}
 
     {% include 'footer.html' %}
-
     <script src="{% static 'js/global.js' %}"></script>
     <script src="{% static 'js/home.js' %}"></script>
     <script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>

@@ -7,6 +7,10 @@
 .pop-up-signin-signup form{
     background-color: black;
 }
+.pop-up-signin-signup form h3{
+    border-bottom: 3px solid white;
+    width: 100%;
+}
 .pop-up-signin-signup form img{
     position: relative;
     float: right;
@@ -18,11 +22,11 @@
 }
 .pop-up-signin-signup form label{
     color: white;
-    text-align: center;
+    text-align: left;
     width: 100%;
 }
 .pop-up-signin-signup form p{
-    text-align: center;
+    text-align: left;
     color: white;
     padding-top: 20px;
 }

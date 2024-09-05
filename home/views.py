@@ -46,8 +46,10 @@ def sign_up(request):
     if request.method == 'POST':
         form = UserSignUpForm(request.POST)
         password = request.POST.get('password')
+        user_type = request.POST.get('user-type')
         if form.is_valid():
             form.instance.password = make_password(password)
+            form.instance.are_you_a_student = True if user_type == "1" else False
             form.save()
             messages.success(request, 'Account Created successfully')
             return redirect('home-url')
