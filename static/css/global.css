@@ -6,7 +6,7 @@
 }
   .banner {
     margin-top:0;
-    background: url('../images/banner.jpeg') no-repeat center center;
+    background: url('../images/banner.jpg') no-repeat center center;
     background-size: cover;
     height: 60vh;
     display: flex;
