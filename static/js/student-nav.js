@@ -1,4 +1,3 @@
-const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 const nav_vertical = document.getElementById('nav-vertical');
 const nav_vertical_hide_toggler = document.getElementById('nav-vertical-hide-toggler');
 const nav_vertical_show_toggler = document.getElementById('nav-vertical-show-toggler');
