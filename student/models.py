@@ -45,7 +45,7 @@ class MyTutorial(models.Model):
         return self.tutorial.name
 
 
-# Cat
+# Cat=====================================
 class Cat(models.Model):
     cat_id = models.CharField(max_length=100, null=True, unique=True)
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)

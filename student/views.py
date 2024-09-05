@@ -169,29 +169,30 @@ def cat_search(request):
         }
         return JsonResponse(context)
 
+
 @login_required(login_url='home-url')
 def cat_home(request):
     user = User.objects.get(id=request.user.id)
     if user.are_you_a_student:
-        cats = CatSubmit.objects.filter(
-            user_id=request.user.id
-        )
-        answers = Response.objects.filter(
-            user=request.user,
-            answer__is_correct_answer=True,
-        )
+        cats = CatSubmit.objects.filter(user_id=request.user.id)
+        answers = Response.objects.filter(user=request.user, answer__is_correct_answer=True)
         questions = Question.objects.all()
+
+        for cat in cats:
+            cat_questions = questions.filter(cat=cat.cat)
+            cat.correct_answers_count = answers.filter(question__in=cat_questions).count()
+            cat.total_questions_count = cat_questions.count()
+
         end_time_check = timezone.now()
         context = {
             'cats': cats,
-            'answers': answers,
-            'questions': questions,
-            'end_time_check': end_time_check
+            'end_time_check': end_time_check,
         }
         return render(request, 'student/cat.html', context)
     else:
         messages.error(request, "Logged in as author!")
         return redirect('author-dashboard-url')
+
 
 @login_required(login_url='home-url')
 def cat_view(request, pk):

@@ -27,7 +27,7 @@ urlpatterns += [
 ]
 # Exams Url==================================================================
 urlpatterns += [
-    path('Cat/Home/', views.cat_home, name='cat-home-url'),
+    path('Cats/', views.cat_home, name='cat-home-url'),
     path('Cat/Create/', views.cat_create, name='cat-create-url'),
     path('Cat/View/<pk>', views.cat_view, name='cat-view-url'),
     path('Cat/Edit/<pk>', views.cat_edit, name='cat-edit-url'),
