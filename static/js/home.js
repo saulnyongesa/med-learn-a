@@ -34,11 +34,11 @@ pop_up_signin_signup_hide_btn2.addEventListener(
 
 // Reduce pop_up_signin_signup_form width on MD screen/ LG Screen
 function reduceSigninPopuWidth(){
-    if (screenWidth > 768) {
+    if (getScreenWidth > 768) {
         pop_up_signin_form.classList.remove('w-100')
-        pop_up_signin_form.classList.add('w-25')
+        pop_up_signin_form.classList.add('w-50')
         pop_up_signup_form.classList.remove('w-100')
-        pop_up_signup_form.classList.add('w-25')
+        pop_up_signup_form.classList.add('w-75')
     } else {
         pop_up_signin_form.classList.remove('w-25')
         pop_up_signin_form.classList.add('w-100')
