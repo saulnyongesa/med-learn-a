@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    window.location.href = "/Author/Tutorial/Edit/" + tutorial_id + "/"
+                    // window.location.href = "/Author/Tutorial/Edit/" + tutorial_id + "/"
                 } else {
                     alert('Failed to save changes.');
                 }
@@ -68,9 +68,9 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    window.location.href = "/Author/Tutorial/Edit/" + tutorialId + "/"
+                    // window.location.href = "/Author/Tutorial/Edit/" + tutorialId + "/"
                 } else {
-                    window.location.href = "/Author/Tutorial/Edit/" + tutorialId + "/"
+                    // window.location.href = "/Author/Tutorial/Edit/" + tutorialId + "/"
                 }
             })
             .catch(error => {
