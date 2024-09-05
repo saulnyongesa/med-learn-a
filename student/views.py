@@ -97,7 +97,7 @@ def sign_out(request):
     return redirect('home-url')
 
 
-@login_required(login_url='student-sign-in-url')
+@login_required(login_url='home-url')
 def profile(request):
     user = User.objects.get(id=request.user.id)
     if user.are_you_a_student:
@@ -108,7 +108,7 @@ def profile(request):
         messages.error(request, "Logged in as author!")
         return redirect('author-dashboard-url')
 
-@login_required(login_url='student-sign-in-url')
+@login_required(login_url='home-url')
 def profile_edit(request):
     user = User.objects.get(id=request.user.id)
     if user.are_you_a_student:
