@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // window.location.href = "/Author/Tutorial/Edit/" + tutorial_id + "/"
+                    
                 } else {
                     alert('Failed to save changes.');
                 }
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': getCsrfToken()  // Adjust if needed
+                'X-CSRFToken': getCsrfToken()  
             },
             body: JSON.stringify({
                 id: topicId,
@@ -68,9 +68,9 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // window.location.href = "/Author/Tutorial/Edit/" + tutorialId + "/"
+                   
                 } else {
-                    // window.location.href = "/Author/Tutorial/Edit/" + tutorialId + "/"
+                    alert('Failed to save changes.');
                 }
             })
             .catch(error => {
@@ -125,7 +125,7 @@ document.getElementById('save-topic-btn').addEventListener(
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': getCsrfToken()  // Adjust if needed
+                    'X-CSRFToken': getCsrfToken() 
                 },
                 body: JSON.stringify({
                     id: tutorialId,
