@@ -24,9 +24,8 @@
 {% endfor %}
 <!--Create A Tutorial  -->
 <section id="create-tutorial-pop-up" class="create-tutorial-pop-up-main container-fluid d-none">
-    <div id="create-tutorial-pop-up-inner" class="d-block m-auto w-100 p-2">
-        <img id="create-tutorial-pop-up-hide-btn" class="bg-light" src="{% static 'images/bar-close.svg '%}"
-             alt="Close">
+    <div id="create-tutorial-pop-up-inner" class="d-block m-auto w-75 p-2">
+        <img id="create-tutorial-pop-up-hide-btn" class="bg-light" src="../../static/images/bar-close.svg" alt="Close">
         <h3 class="text-center text-success">CREATE TUTORIAL</h3>
         {% csrf_token %}
         <h2 class="text-left text-white">
@@ -35,7 +34,7 @@
         </h2> <br>
         <h2 class="text-left text-white">
             Type Brief Description <br>
-            <textarea class="w-100 p-2" id="create-tutorial-description" rows="10"></textarea>
+            <textarea class="w-100 p-2" id="create-tutorial-description" rows="5"></textarea>
         </h2>
 
         <button id="save-tutorial-created-btn" class="form-control btn-success">Save</button>
