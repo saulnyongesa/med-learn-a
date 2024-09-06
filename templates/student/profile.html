@@ -1,44 +1,84 @@
 {% load static %}
+{% load crispy_forms_filters %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{request.user}} Profile</title>
+    <title>{{ request.user }} Profile</title>
     <link rel="icon" href="{% static 'images/logo.jpg' %}" type="image/jpeg">
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <link rel="stylesheet" href="{% static 'css/student-home.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 
 </head>
 
 <body>
-{% include 'student/header.html' %}
-{% for message in messages %}
+    {% include 'student/header.html' %}
+    {% for message in messages %}
     <p class="alert alert-dismissible bg-info text-center m-auto" style="width: 90%; margin-bottom: 10px">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <strong {% if message.tags %} class="{{ message.tags }} text-capitalize" {% endif %}>
             {{ message }}
         </strong>
     </p>
-{% endfor %}
-{% load crispy_forms_filters %}
-<form class="card p-4">
-    {% csrf_token %}
-    <div class="card-header">
-        <h3 class="text-center text-info text-capitalize">Hi {{request.user.last_name}}, below is your profile.</h3>
+    {% endfor %}
+
+    <!-- Profile Section Start -->
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Profile Overview Card -->
+            <div class="col-md-4 mb-4">
+                <div class="card profile-overview-card p-4 text-center">
+                    <img src="{% static 'images/porifle.jfif' %}" alt="Profile Picture" class="profile-pic">
+                    <h4 class="font-weight-bold">{{ request.user.first_name }} {{ request.user.last_name }}</h4>
+                    <p class="text-muted">{{ request.user.email }}</p>
+                    <div class="text-left mt-4">
+                        <p class="info-item">
+                            <i class="fas fa-calendar-alt text-primary"></i> Joined: {{ request.user.date_joined|date:"F j, Y" }}
+                        </p>
+                        <p class="info-item">
+                            <i class="fas fa-user-graduate text-success"></i> Role: Student
+                        </p>
+                        <p class="info-item">
+                            <i class="fas fa-book text-warning"></i> Courses Enrolled: {{ user_courses_count }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Profile Form -->
+            <div class="col-md-8">
+                <form class="card shadow-lg p-4">
+                    {% csrf_token %}
+                    <div class="card-header bg-primary text-white text-center rounded">
+                        <h3 class="text-capitalize">
+                            <i class="fas fa-user-edit mr-2"></i> Edit Your Profile
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        {{ form|crispy }}
+                        <div class="text-center mt-4">
+                            <a href="{% url 'student-profile-edit-url' %}" class="btn btn-primary px-4 py-2 btn-edit">
+                                <i class="fas fa-edit mr-2"></i> Save Changes
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        {{ form|crispy }}
-        <a href="{% url 'student-profile-edit-url'%}" class="w-25 m-auto btn btn-primary">Edit</a>
-    </div>
-</form>
-{% include 'footer.html' %}
-<script src="{% static 'js/global.js' %}"></script>
-<script src="{% static 'js/student-index.js' %}"></script>
-<script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>
-<script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
-<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+    <!-- Profile Section End -->
+
+    {% include 'footer.html' %}
+    
+    <script src="{% static 'js/global.js' %}"></script>
+    <script src="{% static 'js/student-index.js' %}"></script>
+    <script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
 </body>
 
 </html>

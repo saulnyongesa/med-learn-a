@@ -1,38 +1,41 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{request.user}} Edit</title>
+    <title>{{ request.user }} Edit Profile</title>
     <link rel="icon" href="{% static 'images/logo.jpg' %}" type="image/jpeg">
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <link rel="stylesheet" href="{% static 'css/student-home.css' %}">
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}"> 
 </head>
 
 <body>
     {% include 'student/header.html' %}
-    
-    {% load crispy_forms_filters %}
-    <form action="{% url 'student-profile-edit-url' %}" method="post" class="card p-4">
-        {% csrf_token %}
-        <div class="card-header">
-            <h3 class="text-center text-info text-capitalize">Hi {{request.user.last_name}}, Edit your profile and save.
-            </h3>
-        </div>
-        <div class="card-body">
-            {{ form|crispy }}
-            <input class="form-control btn btn-primary" type="submit" value="Save">
-        </div>
-    </form>
+
+    <div class="container my-5">
+        <form action="{% url 'student-profile-edit-url' %}" method="post" class="profile-card card">
+            {% csrf_token %}
+            <div class="profile-card-header card-header text-center">
+                <h3 class="text-capitalize">Hello, {{ request.user.last_name }}! Edit your profile below.</h3>
+            </div>
+            <div class="profile-card-body card-body">
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+            </div>
+        </form>
+    </div>
+
     {% include 'footer.html' %}
+
+    <script src="{% static 'bootstrap/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/global.js' %}"></script>
     <script src="{% static 'js/student-index.js' %}"></script>
-    <script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>
-    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
-    <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
 </body>
 
 </html>

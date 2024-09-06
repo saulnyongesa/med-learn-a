@@ -1,0 +1,47 @@
+body {
+    background-color: #f8f9fa;
+}
+.profile-card {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.profile-card-header {
+    background-color: #007bff;
+    color: #ffffff;
+    border-bottom: 1px solid #0056b3;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.profile-card-body {
+    padding: 2rem;
+}
+.form-control.btn-primary {
+    margin-top: 1rem;
+}
+
+.profile-overview-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-pic {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.info-item {
+    font-size: 1.1em;
+}
+
+.info-item i {
+    margin-right: 10px;
+}
+
+.btn-edit:hover {
+    transform: scale(1.05);
+    transition: 0.3s ease;
+}
