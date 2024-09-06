@@ -4,8 +4,10 @@
     <div class="nav-items-vertical">
         <ul class="list-unstyled">
              {% for topic in topics %}
-            <li class="w-100 p-1">
-                <a class="btn btn-link text-light text-left w-100" href="">{{ topic.name }}</a>
+             <li class="w-100 mb-2">
+                <a class="btn btn-light text-dark d-flex align-items-center p-3 rounded shadow-sm w-100 transition-all duration-300 ease-in-out hover:bg-primary hover-text-light hover-shadow" href="#">
+                    <i class="fas fa-book mr-2"></i> {{ topic.name }}
+                </a>
             </li>
             {% endfor %}            
         </ul>
