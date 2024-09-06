@@ -256,8 +256,16 @@ def cat_home(request):
         cats = Cat.objects.filter(
             user_id=request.user.id
         )
+        approvals = StudentApproval.objects.filter(
+            lecturer=request.user
+        )
+        students = User.objects.filter(
+            are_you_a_student=True
+        )
         context = {
             'cats': cats,
+            'approvals': approvals,
+            'students': students
         }
         return render(request, 'cat/cat.html', context)
     else:

@@ -5,29 +5,30 @@ document.addEventListener("DOMContentLoaded", function () {
     const resultHeader = document.getElementById('result-header');
 
     searchInput.addEventListener('input', function () {
-            const query = searchInput.value;
-            if (query.length === 0) {
-                resultHolder.innerHTML = ''
-                resultHeader.classList.remove('d-flex');
-                resultHeader.classList.add('d-none');
-                return;
-            }
-            fetch('/Student/Search/Cat/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCsrfToken()  // Adjust if needed
-                },
-                body: JSON.stringify({
-                    query: query,
-                })
+        const query = searchInput.value;
+        if (query.length === 0) {
+            resultHolder.innerHTML = ''
+            resultHeader.classList.remove('d-flex');
+            resultHeader.classList.add('d-none');
+            resultHolder.classList.remove('d-flex');
+            resultHolder.classList.add('d-none');
+            return;
+        }
+        fetch('/Student/Search/Cat/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCsrfToken()  // Adjust if needed
+            },
+            body: JSON.stringify({
+                query: query,
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        let result = '';
-                        // for (let i in data.data) {
-                            result += ` <div class="m-auto w-100">
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    let result = '';
+                    result += ` <div class="m-auto w-100">
                                         <p>CAT NAME: ${data.data.name} </p> 
                                         <p>LECTURER USERNAME: ${data.data.username}</p>
                                         <p>START: ${data.data.start}</p>
@@ -35,22 +36,30 @@ document.addEventListener("DOMContentLoaded", function () {
                                         <a class="btn btn-secondary w-100" href="/Student/Cat/View/${data.data.id}/">Open</a> </div>
                                         </div>
                                         `;
-                        // }
-                        resultHolder.classList.add('badge-info');
+                    resultHeader.classList.remove('d-none');
+                    resultHeader.classList.add('d-flex');
+                    resultHolder.classList.remove('d-none');
+                    resultHolder.classList.add('d-flex');
+                    resultHolder.innerHTML = result;
+                    if (result === '') {
+                        let search_input = searchInput.value
+                        search_input = search_input.toString()
                         resultHeader.classList.remove('d-none');
                         resultHeader.classList.add('d-flex');
-                        resultHolder.innerHTML = result;
-                        if(result === ''){
-                            let search_input = searchInput.value
-                            search_input = search_input.toString()
-                            resultHolder.innerHTML = '<p>CAT with ID: "' + search_input + '" Not Found</p>';
-                        }
+                        resultHolder.classList.remove('d-none');
+                        resultHolder.classList.add('d-flex');
+                        resultHolder.innerHTML = '<p>CAT with ID: "' + search_input + '" Not Found</p>';
                     }
-                    else{
-                        resultHolder.innerHTML = '<p class="text-danger">CAT Not Found</p>'
-                    }
-                });
-        }
+                }
+                else {
+                    resultHeader.classList.remove('d-none');
+                    resultHeader.classList.add('d-flex');
+                    resultHolder.classList.remove('d-none');
+                    resultHolder.classList.add('d-flex');
+                    resultHolder.innerHTML = '<p class="text-danger">CAT Not Found</p>'
+                }
+            });
+    }
     );
     function getCsrfToken() {
         const cookies = document.cookie.split(';');

@@ -11,69 +11,125 @@
     <link rel="stylesheet" href="{% static 'css/exams.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
 </head>
+
 <body>
-{% include 'student/header.html' %}
-{% for message in messages %}
+    {% include 'student/header.html' %}
+    {% for message in messages %}
     <p class="alert alert-dismissible bg-info text-center m-auto" style="width: 90%; margin-bottom: 10px">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <strong {% if message.tags %} class="{{ message.tags }} text-capitalize" {% endif %}>
             {{ message }}
         </strong>
     </p>
-{% endfor %}
-<div class="w-100 p-3 bg-success d-flex">
-    <form class="w-50 m-auto" action="">
-        <label class="w-100 font-weight-bolder" for="cat-id">
-            Type CAT ID <sup>*</sup> <br>
-            <input class="p-2 form-control" type="text" id="search" placeholder="Type CAT ID">
-        </label>
-        <h4 class="d-none" id="result-header">Search Result</h4>
-        <div class="p-2" id="result-holder" style="border-radius: 10px">
-
-        </div>
-    </form>
-
-</div>
+    {% endfor %}
 
 
-{% if cats %}
-    <section class="cat-container container">
-        <div class="cat-container-header bg-success pt-4 pb-4 pr-1 pl-1">
-            <h4 class="m-2">CATs Participated</h4>
-        </div>
-        <div class="cat-container-card-holder flex pt-4 pb-4">
-            {% for cat in cats %}
-                <div class="card">
-                    <div class="card-footer">
-                        <h5 class="font-weight-bolder">
-                            <span class="p-2 btn btn-secondary">CAT Id: {{ cat.cat.cat_id }}</span>
-                        </h5>
-                        <p>CAT Name: {{ cat.cat.name }}</p>
-                        <p>Start Date: {{ cat.cat.start }}</p>
-                        <p>End Date: {{ cat.cat.end }}</p>
-                        {% if cat.cat.end > end_time_check %}
-                            <a class="btn btn-success w-100" href="{% url 'student-cat-view-url' cat.cat.id %}">Open</a>
-                        {% else %}
-                            <p>
-                                Score: {{ cat.correct_answers_count }} out of {{ cat.total_questions_count }}
-                            </p>
-                            <a class="btn btn-secondary w-100" href="">View Results</a>
-                        {% endif %}
-                    </div>
+
+    <!-- Cat Container -->
+    <section class="container mt-5">
+        <div class="row">
+            <!-- Cat Section -->
+            <div class="col-md-6 col-lg-8 mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="text-info">
+                        CATs/Asignments
+                    </h4>
+                    <input type="text" id="search" class="form-control w-50" placeholder="Search CAT by CAT ID">
                 </div>
-            {% endfor %}
+                <h4 id="result-header" class="d-none text-dark">Search Result</h4>
+                <div id="result-holder" class="result-holder d-none p-4">
+
+                </div>
+                <div class="row">
+                    {% if cats %}
+                    {% for cat in cats %}
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-lg border-light">
+                            <div class="card-body">
+                                <h5 class="card-title font-weight-bold">{{ cat.cat.name }}</h5>
+                                <p>CAT ID: {{ cat.cat.cat_id }}</p>
+                                <p>Start Date: {{ cat.cat.start }}</p>
+                                <p>End Date: {{ cat.cat.end }}</p>
+                                <p class="text-info font-weight-bolder" id="remaining-time{{cat.cat.id}}"></p>
+                                <script>
+                                    // Convert the Django datetime to a JavaScript Date object
+                                    var endDateTime = new Date("{{ cat.cat.end|date:'Y-m-d H:i:s' }}").getTime();
+                                    function updateRemainingTime() {
+                                        var now = new Date().getTime();
+                                        var timeRemaining = endDateTime - now;
+                                        if (timeRemaining > 0) {
+                                            var minutesRemaining = Math.floor(timeRemaining / (1000 * 60));
+                                            document.getElementById('remaining-time{{cat.cat.id}}').innerText = "Time Left: " + minutesRemaining + " mins";
+                                        } else {
+                                            document.getElementById('remaining-time{{cat.cat.id}}').innerText = "Time has ended.";
+                                        }
+                                    }
+                                    // Update the remaining time every minute
+                                    setInterval(updateRemainingTime, 60000);
+                                    // Initial update
+                                    updateRemainingTime();
+                                </script>
+                            </div>
+                            <div class="card-footer text-mutedjustify-content-between align-items-center">
+                                {% if cat.cat.end > end_time_check %}
+                                <a class="btn btn-success float-right"
+                                    href="{% url 'student-cat-view-url' cat.cat.id %}">Open</a>
+                                {% else %}
+                                <p class="text-center text-success w-100">
+                                    Score: {{ cat.correct_answers_count }} out of {{ cat.total_questions_count }}
+                                </p>
+                                <a class="btn btn-secondary w-100"
+                                    href="{% url 'student-cat-view-url' cat.cat.id %}">View Results</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <h4 class="d-flex justify-content-center align-items-center w-100" style="min-height: 50vh;">No CATs
+                        participated.</h4>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Recently Viewed Tutorials Section -->
+            <div class="col-md-6 col-lg-4 mb-4">
+                <h4 class="text-success mb-4">Recently Viewed Tutorials</h4>
+                <div class="row overflow-auto" style="height: 75vh;">
+                    {% if my_tutorials %}
+                    {% for tutorial in my_tutorials %}
+                    <div class="col-12 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title font-weight-bold">{{ tutorial.tutorial.name }}</h5>
+                                <p class="card-text">{{ tutorial.tutorial.description|slice:":100" }}{% if tutorial.tutorial.description|length > 100 %}...{% endif %}</p>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <a href="{% url 'student-tutorial-url' tutorial.tutorial.id %}"
+                                    class="btn btn-success btn-block">Continue Learning</a>
+                                <a href="{% url 'student-tutorial-rm-rv-url' tutorial.tutorial.id %}"
+                                    class="btn btn-danger btn-block mt-2">Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <h4 class="d-flex bg-dark justify-content-center align-items-center w-100"
+                        style="min-height: 50vh;">No Recently
+                        View Tutorials.</h4>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </section>
-{% else %}
-    <h3 class="text-center w-100">You have not participated in any CAT.</h3>
-{% endif %}
 
 
-{% include 'footer.html' %}
-<script src="{% static 'js/global.js' %}"></script>
-<script src="{% static 'js/search-cat.js' %}"></script>
-<script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>
-<script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
-<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+    {% include 'footer.html' %}
+    <script src="{% static 'js/global.js' %}"></script>
+    <script src="{% static 'js/search-cat.js' %}"></script>
+    <script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
 </body>
+
 </html>

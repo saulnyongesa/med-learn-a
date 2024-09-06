@@ -48,50 +48,107 @@
 </section>
 <!-- Create A Tutorial End  -->
 
-{#====My Cats Start====#}
-{% if cats %}
-    <section class="cat-container container">
-        <div class="cat-container-header bg-success pt-4 pb-4 pr-1 pl-1">
-            <h4 class="m-2">
-                Your CATs
-                <button id="create-cat-pop-up-show-btn" class="float-right btn btn-light">Create Tutorial</button>
-            </h4>
-            <input class="p-2 m-1 form-control" type="text" id="search" placeholder="Search Your CATs">
-            <h4 class="d-none" id="result-header">Search Result</h4>
-            <div id="result-holder">
 
+ <!-- Cat Container -->
+ <section class="container mt-5">
+    <div class="row">
+        <!-- Cat Section -->
+        <div class="col-md-6 col-lg-8 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="text-info">
+                    CATs/Asignments
+                    <button id="create-cat-pop-up-show-btn" class="float-right btn btn-secondary ml-1">Create</button>
+                </h4>
+                <input type="text" id="search" class="form-control w-50" placeholder="Search CAT">
+            </div>
+            <h4 id="result-header" class="d-none text-dark">Search Result</h4>
+            <div id="result-holder" class="result-holder d-none p-4">
+                 
+            </div>
+            <div class="row">
+                {% if cats %}
+                {% for cat in cats %}
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-lg border-light"> 
+                            <div class="card-body">
+                                <h5 class="card-title font-weight-bold">{{ cat.name }}</h5>
+                                <p>CAT ID: {{ cat.cat_id }}</p>
+                                <p>Start Date: {{ cat.start }}</p>
+                                <p>End Date: {{ cat.end }}</p>
+                                <p class="text-info font-weight-bolder" id="remaining-time{{cat.id}}"></p>       
+                                <script>
+                                    // Convert the Django datetime to a JavaScript Date object
+                                    var endDateTime = new Date("{{ cat.end|date:'Y-m-d H:i:s' }}").getTime();
+                                    function updateRemainingTime() {
+                                        var now = new Date().getTime();
+                                        var timeRemaining = endDateTime - now;
+                                        if (timeRemaining > 0) {
+                                            var minutesRemaining = Math.floor(timeRemaining / (1000 * 60));
+                                            document.getElementById('remaining-time{{cat.id}}').innerText = "Time Left: " + minutesRemaining + " mins";
+                                        } else {
+                                            document.getElementById('remaining-time{{cat.id}}').innerText = "Time has ended.";
+                                        }
+                                    }
+                                    // Update the remaining time every minute
+                                    setInterval(updateRemainingTime, 60000);
+                                    // Initial update
+                                    updateRemainingTime();
+                                </script>             
+                            </div>
+                            <div class="card-footer text-muted d-flex justify-content-between align-items-center">
+                                <a href="{% url 'cat-view-url' cat.id %}" class="btn btn-info">View</a>
+                                {% if cat.is_published %}
+                                <a class="btn btn-danger float-right"
+                                    href="{% url 'cat-conceal-publish-url' cat.id %}">Conceal</a>
+                                {% else %}
+                                <a class="btn btn-success float-right"
+                                    href="{% url 'cat-conceal-publish-url' cat.id %}">Publish</a>
+                                {% endif %}
+                            </div>
+                            <div class="ml-1 w-100 text-center">
+                                 <a class="btn btn-link text-danger "
+                            href="{% url 'delete-cat-url' cat.id %}">Delete</a>
+                            </div>     
+                        </div>
+                    </div>
+                {% endfor %}
+                {% else %}
+                <h4 class="d-flex justify-content-center align-items-center w-100" style="min-height: 50vh;">No CATs uploaded.</h4>
+                {% endif %}
             </div>
         </div>
-        <div class="cat-container-card-holder flex pt-4 pb-4">
-            {% for cat in cats %}
-                <div class="card">
-                    <div class="card-footer">
-                        <h5 class="font-weight-bolder">
-                            <span class="p-2 btn btn-secondary">Id: {{ cat.cat_id }}</span>
-                            {% if cat.is_published %}
-                                <a class="btn btn-danger float-right" href="{% url 'cat-conceal-publish-url' cat.id %}">Conceal</a>
-                            {% else %}
-                                <a class="btn btn-danger float-right ml-1" href="{% url 'delete-cat-url' cat.id %}">Delete</a>
-                                <a class="btn btn-success float-right" href="{% url 'cat-conceal-publish-url' cat.id %}">Publish</a>
+
+        <!-- Pending Student Approvals -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <h4 class="text-success mb-4">Pending Student Approvals</h4>
+            <div class="row overflow-auto" style="height: 75vh;">
+                {% if approvals %}
+                {% for approval in approvals %}
+                <div class="col-12 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            {% for student in students %}
+                            {% if student.registration_number == approval.registration_number %}
+                            <h5 class="card-title font-weight-bold text-capitalize">{{ student.last_name }} {{ student.first_name }}</h5>
+                            <p class="card-text">{{ student.registration_number }}</p>
                             {% endif %}
-                        </h5>
-                        <h5 class="font-weight-bolder">
-                            {{ cat.name }}
-                        </h5>
-                        <p>Start Date: {{ cat.start }}</p>
-                        <p>End Date: {{ cat.end }}</p>
-                        <a class="btn btn-success w-100" href="{% url 'cat-view-url' cat.id %}">Open</a>
+                            {% endfor %}
+                        </div>
+                        <div class="card-footer text-muted">
+                            <a href="" class="btn btn-success btn-block">Approve</a>
+                            <a href="" class="btn btn-danger btn-block mt-2">Decline</a>
+                        </div>
                     </div>
                 </div>
-            {% endfor %}
+                {% endfor %}
+                {% else %}
+                <h4 class="d-flex bg-dark justify-content-center align-items-center w-100" style="min-height: 50vh;">No Approval Requests.</h4>
+                {% endif %}
+            </div>
         </div>
-    </section>
-{% else %}
-    <h3 class="text-center w-100">You have not published any CAT.</h3>
-    <div class="w-100 d-flex">
-        <button id="create-cat-pop-up-show-btn" class="btn btn-secondary m-auto">Create New Cat</button>    </div>
-{% endif %}
-{#====My Cats End====#}
+    </div>
+</section>
+
 {% include 'footer.html' %}
 <script src="{% static 'js/global.js' %}"></script>
 <script src="{% static 'js/exams.js' %}"></script>

@@ -61,3 +61,11 @@
    text-align: justify;
     color: white;
 }
+
+
+.result-holder{
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    background-color: #555;
+    border-radius: 10px;
+    color: white;
+}

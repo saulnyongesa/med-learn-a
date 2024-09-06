@@ -188,6 +188,7 @@ def cat_home(request):
     user = User.objects.get(id=request.user.id)
     
     if user.are_you_a_student:
+        
         # Check if the student is approved
         try:
             student_approval = StudentApproval.objects.get(registration_number=user.registration_number)
@@ -206,9 +207,15 @@ def cat_home(request):
             cat.total_questions_count = cat_questions.count()
 
         end_time_check = timezone.now()
+        my_tutorials = MyTutorial.objects.filter(
+            user__are_you_a_student=True,
+            user_id=request.user.id,
+            tutorial__is_published=True
+        )
         context = {
             'cats': cats,
             'end_time_check': end_time_check,
+            'my_tutorials': my_tutorials,
         }
         return render(request, 'student/cat.html', context)
     else:

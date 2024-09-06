@@ -91,10 +91,10 @@
                     {% endif %}
                 </div>
             </div>
-            <!-- Recently Viewed Tutorials Section -->
+            <!--Pending approvals Section -->
             <div class="col-md-6 col-lg-4 mb-4">
                 <h4 class="text-success mb-4">Pending Student Approvals</h4>
-                <div class="row">
+                <div class="row overflow-auto" style="height: 75vh;">
                     {% if approvals %}
                     {% for approval in approvals %}
                     <div class="col-12 mb-4">
