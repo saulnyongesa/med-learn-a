@@ -149,23 +149,6 @@
     font-weight: bolder;
 }
 
-.blogs .card {
-    width: 50vh;
-    height: fit-content;
-    margin: 10px;
-    border: none;
-}
-
-.blogs .card .card-footer {
-    background-color: rgba(54, 53, 53, 0.63);
-    color: white;
-    padding: 10px;
-}
-
-.blogs .card .card-footer h5 {
-    color: black;
-    font-weight: bolder;
-}
 
 /* The entire scrollbar */
 ::-webkit-scrollbar {
@@ -194,6 +177,19 @@
 .footer{
     width: 100vw;
     min-height: 30vh;
-    background-color: black;
+    background-color: white;
     margin-top: 50px;
+}
+.footer .container form{
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: #555;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.footer .container div nav{
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: #555;
+    padding: 10px;
+    border-radius: 10px;
 }

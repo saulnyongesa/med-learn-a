@@ -5,7 +5,10 @@
     z-index: 1000;
 }
 .create-tutorial-pop-up-main div{
-    background-color: black;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: #555;
+    padding: 10px;
+    border-radius: 10px;
 }
 .create-tutorial-pop-up-main div img{
     position: relative;
