@@ -33,7 +33,7 @@ pop_up_signin_signup_hide_btn2.addEventListener(
 )
 
 // Reduce pop_up_signin_signup_form width on MD screen/ LG Screen
-function reduceSigninPopuWidth(){
+function reduceSigninPopuWidth() {
     if (getScreenWidth > 768) {
         pop_up_signin_form.classList.remove('w-100')
         pop_up_signin_form.classList.add('w-50')
@@ -79,16 +79,16 @@ const form = document.getElementById("pop-up-signup-form");
 const password_error1 = document.getElementById("password-error1");
 const password_error2 = document.getElementById("password-error2");
 
-form.addEventListener("submit", function(event) {
+form.addEventListener("submit", function (event) {
     const password = document.getElementById("password").value;
     const confirm_password = document.getElementById("confirm-password").value;
-    
+
     let hasError = false; // Track if there are any errors
 
     // Hide Signin
     pop_up_signin_form.classList.add('d-none');
     pop_up_signin_form.classList.remove('d-block');
-    
+
     // Show Signup
     pop_up_signup_form.classList.remove('d-none');
     pop_up_signup_form.classList.add('d-block');
@@ -159,13 +159,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     resultHeader.classList.remove('d-none');
                     resultHeader.classList.add('d-block');
                     resultHolder.innerHTML = result;
-                    if(result === ''){
+                    if (result === '') {
                         let search_input = searchInput.value
                         search_input = search_input.toString()
                         resultHolder.innerHTML = '<p class="text-center text-dark font-weight-bolder">Tutorial With Name "' + search_input + '" Not Found</p>';
                     }
                 }
-                else{
+                else {
                     resultHolder.innerHTML = '<p class="text-danger">No Tutorial Found</p>'
                 }
             });
@@ -181,4 +181,32 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         return '';
     }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const userTypeSelect = document.getElementById('user_type');
+    const regNumberLabel = document.getElementById('reg-number-label');
+    const regNumberInput = document.getElementById('reg-number-input');
+
+    const lecturerLabel = document.getElementById('lecturer-label');
+    const lecturerInput = document.getElementById('lecturer-input');
+
+    userTypeSelect.addEventListener('change', function () {
+        if (userTypeSelect.value === '1') {
+            // Show registration number field if user is a student
+            regNumberLabel.classList.remove('d-none');
+            regNumberInput.setAttribute('required', 'required');
+            // Show Lecturer input field if user is a student
+            lecturerLabel.classList.remove('d-none');
+            lecturerInput.setAttribute('required', 'required');
+        } else {
+            // Hide registration number field if user is not a student
+            regNumberLabel.classList.add('d-none');
+            regNumberInput.removeAttribute('required');
+
+             // Hide Lecturer input field if user is not a student
+             lecturerLabel.classList.add('d-none');
+             lecturerInput.removeAttribute('required');
+        }
+    });
 });

@@ -14,10 +14,11 @@ def tutorial_view(request, pk):
         current_tutorial = Tutorial.objects.get(id=pk)
         topics = Topic.objects.filter(tutorial=current_tutorial)
         attachments = Attachments.objects.filter(tutorial=current_tutorial)
+       
         context = {
             'tutorial': current_tutorial,
             'topics': topics,
-            'attachments': attachments,
+            'attachments': attachments,           
         }
         return render(request, 'author/tutorial.html', context)
     else:
@@ -199,8 +200,16 @@ def dashboard_index_author(request):
         my_tutorials = Tutorial.objects.filter(
             user_id=request.user.id
         )
+        approvals = StudentApproval.objects.filter(
+            lecturer=request.user
+        )
+        students = User.objects.filter(
+            are_you_a_student=True
+        )
         context = {
             'my_tutorials': my_tutorials,
+            'approvals': approvals,
+            'students': students
         }
         return render(request, 'author/index.html', context)
     else:

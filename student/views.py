@@ -16,10 +16,17 @@ from student.forms import *
 @login_required(login_url='home-url')
 def dashboard_index_student(request):
     user = User.objects.get(id=request.user.id)
+    
     if user.are_you_a_student:
-        latest_tutorials = Tutorial.objects.filter(
-            is_published=True
-        )
+        # Check if the student is approved
+        try:
+            student_approval = StudentApproval.objects.get(registration_number=user.registration_number)
+            if not student_approval.is_approved:
+                return render(request, 'student/not_approved.html')  # Page that tells them they're not approved
+        except StudentApproval.DoesNotExist:
+            return render(request, 'student/not_approved.html')  # If no approval record found, redirect to the same page
+        
+        latest_tutorials = Tutorial.objects.filter(is_published=True)
         my_tutorials = MyTutorial.objects.filter(
             user__are_you_a_student=True,
             user_id=request.user.id,
@@ -34,24 +41,29 @@ def dashboard_index_student(request):
         messages.error(request, "Logged in as author!")
         return redirect('author-dashboard-url')
 
+
 @login_required(login_url='home-url')
 def tutorial(request, pk):
     user = User.objects.get(id=request.user.id)
+    
     if user.are_you_a_student:
+        # Check if the student is approved
+        try:
+            student_approval = StudentApproval.objects.get(registration_number=user.registration_number)
+            if not student_approval.is_approved:
+                return render(request, 'student/not_approved.html')  # Redirect to the not approved page
+        except StudentApproval.DoesNotExist:
+            return render(request, 'student/not_approved.html')  # If no approval record found, redirect to the same page
+        
         try:
             current_tutorial = Tutorial.objects.get(id=pk)
             if current_tutorial.is_published:
                 try:
-                    MyTutorial.objects.get(
-                        user=request.user,
-                        tutorial=current_tutorial
-                    )
+                    MyTutorial.objects.get(user=request.user, tutorial=current_tutorial)
                 except MyTutorial.DoesNotExist:
-                    MyTutorial.objects.create(
-                        user=request.user,
-                        tutorial=current_tutorial
-                    )
-                    messages.success(request, 'Welcome! This tutorial has been Added to your "My tutorials" list.')
+                    MyTutorial.objects.create(user=request.user, tutorial=current_tutorial)
+                    messages.success(request, 'Welcome! This tutorial has been added to your "My tutorials" list.')
+                
                 topics = Topic.objects.filter(tutorial=current_tutorial)
                 attachments = Attachments.objects.filter(tutorial=current_tutorial)
                 context = {
@@ -68,6 +80,7 @@ def tutorial(request, pk):
     else:
         messages.error(request, "Logged in as author!")
         return redirect('author-dashboard-url')
+
 
 
 @login_required(login_url='home-url')
@@ -173,7 +186,16 @@ def cat_search(request):
 @login_required(login_url='home-url')
 def cat_home(request):
     user = User.objects.get(id=request.user.id)
+    
     if user.are_you_a_student:
+        # Check if the student is approved
+        try:
+            student_approval = StudentApproval.objects.get(registration_number=user.registration_number)
+            if not student_approval.is_approved:
+                return render(request, 'student/not_approved.html')  # Redirect to "not approved" page
+        except StudentApproval.DoesNotExist:
+            return render(request, 'student/not_approved.html')  # Redirect if no approval record found
+        
         cats = CatSubmit.objects.filter(user_id=request.user.id)
         answers = Response.objects.filter(user=request.user, answer__is_correct_answer=True)
         questions = Question.objects.all()
@@ -194,22 +216,27 @@ def cat_home(request):
         return redirect('author-dashboard-url')
 
 
+
 @login_required(login_url='home-url')
 def cat_view(request, pk):
-    user = User.objects.get(id=request.user.id)
+    user = User.objects.get(id=request.user.id)    
     if user.are_you_a_student:
+        # Check if the student is approved
+        try:
+            student_approval = StudentApproval.objects.get(registration_number=user.registration_number)
+            if not student_approval.is_approved:
+                return render(request, 'student/not_approved.html')  # Redirect to "not approved" page
+        except StudentApproval.DoesNotExist:
+            return render(request, 'student/not_approved.html')  # Redirect if no approval record found
+        
         try:
             cat = Cat.objects.get(id=pk)
             questions = Question.objects.filter(cat=cat)
             answers = Answer.objects.all()
-            user_responses = Response.objects.filter(
-                user=request.user,
-            )
+            user_responses = Response.objects.filter(user=request.user)
+            
             try:
-                CatSubmit.objects.get(
-                    user=request.user,
-                    cat=cat,
-                )
+                CatSubmit.objects.get(user=request.user, cat=cat)
             except CatSubmit.DoesNotExist:
                 cat_submit = CatSubmit.objects.create(
                     user=request.user,
@@ -217,6 +244,7 @@ def cat_view(request, pk):
                     is_submitted=False
                 )
                 cat_submit.save()
+
             end_time_check = cat.end < timezone.now()
             context = {
                 'cat': cat,
@@ -232,6 +260,7 @@ def cat_view(request, pk):
     else:
         messages.error(request, "Logged in as Author!")
         return redirect('author-dashboard-url')
+
 
 def cat_response_save(request, pk):
     user = User.objects.get(id=request.user.id)
