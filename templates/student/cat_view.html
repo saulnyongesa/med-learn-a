@@ -15,7 +15,6 @@
 </head>
 
 <body>
-<<<<<<< HEAD
     {% include 'student/header.html' %}
     
     <!-- Display Messages -->
@@ -23,30 +22,6 @@
         <div class="alert alert-info alert-dismissible fade show text-center mx-auto w-75" role="alert">
             <strong>{{ message }}</strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-=======
-{% include 'student/header.html' %}
-{% for message in messages %}
-    <p class="alert alert-dismissible bg-info text-center m-auto" style="width: 90%; margin-bottom: 10px">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong {% if message.tags %} class="{{ message.tags }} text-capitalize" {% endif %}>
-            {{ message }}
-        </strong>
-    </p>
-{% endfor %}
-<section class="cat-main p-3">
-    <!-- Course Content Start -->
-    <div class="card">
-        <div class="card-header bg-success">
-            <h3 class="font-weight-bolder">
-                {{ cat.name }}
-                <span class="float-right btn btn-dark text-left">   
-                    TIME VIEW <br>
-                    <p class="font-weight-bolder">Start Time: {{ cat.start }}</p>
-                    <p class="font-weight-bolder">End Time: {{ cat.end }}</p>
-                    <p class="text-info font-weight-bolder" id="remaining-time"></p> <br>
-                </span>
-            </h3>
->>>>>>> upstream/master
         </div>
     {% endfor %}
 
