@@ -1,33 +1,101 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{request.user}} Edit</title>
+    <title>{{ request.user }} Edit Profile</title>
     <link rel="icon" href="{% static 'images/logo.jpg' %}" type="image/jpeg">
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <link rel="stylesheet" href="{% static 'css/student-home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
 </head>
 
 <body>
     {% include 'author/header.html' %}
+
     
-    {% load crispy_forms_filters %}
-    <form action="{% url 'author-profile-edit-url' %}" method="post" class="card p-4">
+    <!-- Profile Section Start -->
+    <div class="container mt-5" >
         {% csrf_token %}
-        <div class="card-header">
-            <h3 class="text-center text-info text-capitalize">Hi {{request.user.last_name}}, Edit your profile and save.
-            </h3>
+        <div class="row">
+            <!-- Profile Overview Card -->
+            <div class="col-md-4 mb-4">
+                <div class="card profile-overview-card p-4 text-center">
+                    <div class="profile-pic-holder">
+                        {% if request.user.profile_image %}
+                            <img src="{{ request.user.profile_image.url }}" alt="Profile Picture" class="profile-pic">
+                        {% else %}
+                            <img src="{% static 'images/porifle.jfif' %}" alt="Profile Picture" class="profile-pic">
+                        {% endif %}
+                        <br>
+                        <!-- Profile Image Change Form -->
+                        <form action="{% url 'author-profile-image-change-url' %}" method="post" enctype="multipart/form-data">
+                            <!-- The label is used to trigger the file input -->
+                             {% csrf_token %}
+                            <label for="file-upload" class="custom-file-upload btn btn-secondary">
+                                Change Image
+                            </label>
+                            <br>
+                            <p id="file-name" class="text-success">No file selected</p>
+                            <input id="file-upload" type="file" name="image" class="" />
+                            <input id="image-save" type="submit" class="btn btn-success d-none" value="Save">
+                        </form>                       
+                    </div>
+    
+                    <h4 class="font-weight-bold">{{ request.user.first_name }} {{ request.user.last_name }}</h4>
+                    <p class="text-muted">{{ request.user.email }}</p>
+                    <div class="text-left mt-4">
+                        <p class="info-item">
+                            <i class="fas fa-calendar-alt text-primary"></i> Joined: {{ request.user.date_joined|date:"F j, Y" }}
+                        </p>
+                        <p class="info-item">
+                            <i class="fas fa-user-graduate text-success"></i> Role: Student
+                        </p>
+                        <p class="info-item">
+                            <i class="fas fa-book text-warning"></i> Courses Enrolled: {{ user_courses_count }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Edit Profile Form -->
+            <div class="col-md-8">
+                <div class="card shadow-lg p-4">
+                    <div class="card-header bg-primary text-white text-center rounded">
+                        <h3 class="text-capitalize">
+                            <i class="fas fa-user-edit mr-2"></i> Edit Your Profile
+                        </h3>
+                    </div>
+                    <form  action="{% url 'author-profile-edit-url' %}" method="post" class="card-body">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary px-4 py-2 btn-edit"> 
+                                <i class="fas fa-save mr-2"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            {{ form|crispy }}
-            <input class="form-control btn btn-primary" type="submit" value="Save">
-        </div>
-    </form>
+    </div>
+    
+    <!-- Profile Section End -->
+
     {% include 'footer.html' %}
+    <script>
+        document.getElementById('file-upload').addEventListener('change', function() {
+            var fileName = this.files[0].name;
+            document.getElementById('file-name').textContent = fileName;
+            document.getElementById('image-save').classList.remove('d-none')
+            document.getElementById('image-save').classList.remove('d-block')
+        });
+    </script>    
     <script src="{% static 'js/global.js' %}"></script>
     <script src="{% static 'js/student-index.js' %}"></script>
     <script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>

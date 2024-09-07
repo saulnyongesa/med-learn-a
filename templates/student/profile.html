@@ -28,11 +28,20 @@
 
     <!-- Profile Section Start -->
     <div class="container mt-5">
+
+
         <div class="row">
             <!-- Profile Overview Card -->
             <div class="col-md-4 mb-4">
                 <div class="card profile-overview-card p-4 text-center">
-                    <img src="{% static 'images/porifle.jfif' %}" alt="Profile Picture" class="profile-pic">
+                    <div class="profile-pic-holder">
+                        {% if request.user.profile_image %}
+                        <img src="{% static ''  %}{{ request.user.profile_image }}" alt="Profile Picture" class="profile-pic">
+                        {% else %}
+                        <img src="{% static 'images/porifle.jfif' %}" alt="Profile Picture" class="profile-pic">
+                        {% endif %}
+                    </div>
+                   
                     <h4 class="font-weight-bold">{{ request.user.first_name }} {{ request.user.last_name }}</h4>
                     <p class="text-muted">{{ request.user.email }}</p>
                     <div class="text-left mt-4">
@@ -41,7 +50,10 @@
                         </p>
                         <p class="info-item">
                             <i class="fas fa-user-graduate text-success"></i> Role: Student
-                        </p> 
+                        </p>
+                        <p class="info-item">
+                            <i class="fas fa-book text-warning"></i> Courses Enrolled: {{ user_courses_count }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -52,19 +64,20 @@
                     {% csrf_token %}
                     <div class="card-header bg-primary text-white text-center rounded">
                         <h3 class="text-capitalize">
-                            <i class="fas fa-user-edit mr-2"></i>  Your Profile
+                            <i class="fas fa-eye mr-2"></i> Your Profile
                         </h3>
                     </div>
                     <div class="card-body">
                         {{ form|crispy }}
                         <div class="text-center mt-4">
                             <a href="{% url 'student-profile-edit-url' %}" class="btn btn-primary px-4 py-2 btn-edit">
-                                <i class="fas fa-edit mr-2"></i> Save Changes
+                                <i class="fas fa-edit mr-2"></i> Edit
                             </a>
                         </div>
                     </div>
                 </form>
             </div>
+            
         </div>
     </div>
     <!-- Profile Section End -->

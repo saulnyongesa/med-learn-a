@@ -8,6 +8,7 @@ from django.db.models import Q
 
 
 # Create your views here.
+
 def home(request):
     tutorials = Tutorial.objects.filter(
         is_published=True
@@ -80,7 +81,7 @@ def sign_up(request):
             if form.is_valid():
                 form.instance.password = make_password(password)
                 form.instance.are_you_a_student = False  # Mark as non-student
-                form.instance.registration_number = "NOT STUDENT"  # Registration number is not needed
+                form.instance.registration_number = None  # Registration number is not needed
                 form.save()
 
                 messages.success(request, 'Account created successfully.')

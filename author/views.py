@@ -247,6 +247,23 @@ def profile_edit(request):
         return redirect('student-dashboard-url')
 
 
+login_required(login_url='home-url')
+def profile_image_change(request):
+    user = User.objects.get(id=request.user.id)
+    if not user.are_you_a_student:
+        if request.method == 'POST':
+                if 'image' in request.FILES:  
+                    image = request.FILES['image']  
+                    user.profile_image = image  
+                    user.save()        
+                messages.success(request, 'You changed your profile iamage successfully')
+                return redirect('student-profile-url')
+        else:
+            return redirect('student-profile-url')
+    else:
+        messages.error(request, "Logged in as Student!")
+        return redirect('student-dashboard-url')
+
 
 # Exams====
 @login_required(login_url='home-url')

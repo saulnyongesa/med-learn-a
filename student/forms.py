@@ -27,6 +27,11 @@ class UserEditForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'username', 'phone', 'email']
 
+class UserProfileImageEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['profile_image']
+
 
 class UserSignUpForm(forms.ModelForm):
     class Meta:

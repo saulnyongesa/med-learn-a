@@ -12,6 +12,8 @@ urlpatterns = [
 urlpatterns += [
     path('Profile/', views.profile, name='author-profile-url'),
     path('Profile/Edit/', views.profile_edit, name='author-profile-edit-url'),
+    path('Profile/Image/Change/', views.profile_image_change, name='author-profile-image-change-url'),
+
 ]
 urlpatterns += [
     path('Tutorial/Edit/<pk>/', views.tutorial_edit, name='author-tutorial-url'),

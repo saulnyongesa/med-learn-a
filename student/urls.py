@@ -12,6 +12,7 @@ urlpatterns = [
 urlpatterns += [
     path('Profile/', views.profile, name='student-profile-url'),
     path('Profile/Edit/', views.profile_edit, name='student-profile-edit-url'),
+    path('Profile/Image/Change/', views.profile_image_change, name='student-profile-image-change-url'),
     path('Signout/', views.sign_out, name='student-sign-out-url'),
 ]
 # Exams Url==================================================================

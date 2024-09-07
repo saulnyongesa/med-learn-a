@@ -7,6 +7,7 @@ from django.db import models
 class User(AbstractUser):
     phone = models.PositiveIntegerField(null=True, unique=True)
     registration_number = models.CharField(max_length=55, null=True, )
+    profile_image = models.ImageField(upload_to="UserProfileImages", null=True)
     are_you_a_student = models.BooleanField(default=True)
     updated = models.DateTimeField(auto_now=True, null=True)
     created = models.DateTimeField(auto_now_add=True, null=True)

@@ -125,54 +125,7 @@
             <p>Get guidance from medical experts with years of experience.</p>
         </div>
     </section>
-<!-- Signup Signin form  -->
-<section id="pop-up-signin-signup" class="pop-up-signin-signup container-fluid d-none">
-    <!-- Signin form  -->
-    <form id="pop-up-signin-form" class="d-block m-auto w-100 p-4" action="{% url 'sign-in-url' %}"
-          method="post">
-        <img id="pop-up-signin-signup-hide-btn" class="bg-light" src="../static/images/bar-close.svg"
-             alt="Close">
-        <h3 class="text-center text-success">LOGIN</h3>
-        {% csrf_token %}
-        <label for="username" class="">
-            Username <br>
-            <input class="form-control" type="text" name="username" id="email">
-        </label> <br>
-        <label for="password">
-            Password <br>
-            <input class="form-control" type="password" name="password" id="password">
-        </label>
-        <input class="form-control btn-success" type="submit" value="Proceed">
-        <p>
-            You Don't Have An Account?
-            <a class="btn btn-link text-info" id="pop-up-signup-form-btn">Signup</a>
-        </p>
-    </form>
-    <!-- Sign up form  -->
-    <form id="pop-up-signup-form" class="d-none m-auto w-100 p-4" action="{% url 'sign-up-url' %}"
-          method="post">
-        <h3 class="text-center text-success">SIGNUP</h3>
-        {% csrf_token %}
-        {{form|crispy}}
-        <p id="password-error1" class="w-100 text-danger text-center d-none"></p>
-        <label for="password">
-            Password <br>
-            <input class="form-control" type="password" name="password" id="password">
-        </label>
-        <p id="password-error2" class="w-100 text-danger text-center d-none"></p>
-        <label for="confirm-password">
-            Re-type Password <br>
-            <input class="form-control" type="password" name="confirm-password" id="confirm-password">
-        </label>
-        <input class="form-control btn-success" type="submit" value="Submit">
-        <p>
-            Have An Account? <br>
-            <a class="btn btn-link text-info" id="pop-up-signin-form-btn">Signin</a>
-        </p>
-    </form>
-</section>
-<br>
-<!-- Signup Signin End  -->
+
     <!-- Tutorials Section -->
     {% if tutorials %}
     <section class="tutorial-container container my-5">
