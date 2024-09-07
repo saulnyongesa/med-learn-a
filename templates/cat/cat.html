@@ -70,8 +70,8 @@
                 {% for cat in cats %}
                     <div class="col-md-6 col-lg-4 mb-4">
                         <div class="card h-100 shadow-lg border-light"> 
-                            <div class="card-body">
-                                <h5 class="card-title font-weight-bold">{{ cat.name }}</h5>
+                            <p class="card-title font-weight-bold bg-info text-white p-4">{{ cat.name }}</p>
+                            <div class="card-body">                                
                                 <p>CAT ID: {{ cat.cat_id }}</p>
                                 <p>Start Date: {{ cat.start }}</p>
                                 <p>End Date: {{ cat.end }}</p>
