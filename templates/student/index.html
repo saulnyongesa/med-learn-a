@@ -14,8 +14,7 @@
 
 <body>
 
-{% include 'student/header.html' %}
-
+{% include 'student/header.html' %} 
 {% for message in messages %}
     <div class="alert alert-info alert-dismissible fade show text-center" style="width: 90%; margin: 10px auto;">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -69,6 +68,7 @@
                                     <p class="card-text">{{ tutorial.tutorial.description|slice:":100" }}{% if tutorial.tutorial.description|length > 100 %}...{% endif %}</p>
                                 </div>
                                 <div class="card-footer text-muted">
+                                
                                     <a href="{% url 'student-tutorial-url' tutorial.tutorial.id %}" class="btn btn-success btn-block">Continue Learning</a>
                                     <a href="{% url 'student-tutorial-rm-rv-url' tutorial.tutorial.id %}" class="btn btn-danger btn-block mt-2">Remove</a>
                                 </div>
