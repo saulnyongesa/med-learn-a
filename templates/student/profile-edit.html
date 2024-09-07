@@ -20,8 +20,8 @@
     <div class="container my-5">
         <form action="{% url 'student-profile-edit-url' %}" method="post" class="profile-card card">
             {% csrf_token %}
-            <div class="profile-card-header card-header text-center">
-                <h3 class="text-capitalize">Hello, {{ request.user.last_name }}! Edit your profile below.</h3>
+            <div class="profile-card-header card-header bg-primary  text-center">
+                <h3 class="text-capitalize ">Hello, {{ request.user.last_name }}! Edit your profile below.</h3>
             </div>
             <div class="profile-card-body card-body">
                 {{ form|crispy }}
