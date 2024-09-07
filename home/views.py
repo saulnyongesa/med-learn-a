@@ -39,19 +39,55 @@ def sign_in(request):
 
 def sign_up(request):
     form = UserSignUpForm()
-    tutorials = Tutorial.objects.filter(
-        is_published=True
-    )
+    tutorials = Tutorial.objects.filter(is_published=True)
+
     if request.method == 'POST':
         form = UserSignUpForm(request.POST)
         password = request.POST.get('password')
-        if form.is_valid():
-            form.instance.password = make_password(password)
-            form.save()
-            messages.success(request, 'Account Created successfully')
-            return redirect('home-url')
-        else:  
-            messages.error(request, 'Please correct the errors and try again')
+        user_type = request.POST.get('user-type')  # '1' for student, '0' for non-student
+        reg_number = request.POST.get('reg-number')
+        lecturer_username = request.POST.get('lecturer')
+
+        # If the user is a student
+        if user_type == '1' and reg_number and lecturer_username:
+            try:
+                lecturer = User.objects.get(username=lecturer_username)  # Fetch the lecturer
+                if form.is_valid():
+                    # Save the User first
+                    form.instance.password = make_password(password)
+                    form.instance.registration_number = reg_number  # Set the registration number for the student
+                    form.instance.are_you_a_student = True  # Mark as a student
+                    form.save()
+
+                    # Save the StudentApproval instance
+                    student_approval = StudentApproval.objects.create(
+                        registration_number=reg_number,
+                        lecturer=lecturer,  # Assign the selected lecturer
+                        is_approved=False  # Default to not approved
+                    )
+                    student_approval.save()
+
+                    messages.success(request, 'Account created successfully. Awaiting lecturer approval.')
+                    return redirect('home-url')
+                else:
+                    messages.error(request, 'Please correct the errors and try again.')
+            except User.DoesNotExist:
+                messages.error(request, "Lecturer with that username not found! Ask your lecturer for their username.")
+                return redirect('sign-up-url')  # Redirect to the same page to retry the sign-up
+
+        # If the user is NOT a student
+        else:
+            if form.is_valid():
+                form.instance.password = make_password(password)
+                form.instance.are_you_a_student = False  # Mark as non-student
+                form.instance.registration_number = "NOT STUDENT"  # Registration number is not needed
+                form.save()
+
+                messages.success(request, 'Account created successfully.')
+                return redirect('home-url')
+            else:
+                messages.error(request, 'Please correct the errors and try again.')
+
     context = {
         'tutorials': tutorials,
         'form': form,

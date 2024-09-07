@@ -5,24 +5,33 @@
     z-index: 1000;
 }
 .pop-up-signin-signup form{
-    background-color: black;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: #555;
+    padding: 10px;
+    border-radius: 10px;
+}
+.pop-up-signin-signup form h3{
+    border-bottom: 3px solid white;
+    width: 100%;
 }
 .pop-up-signin-signup form img{
     position: relative;
     float: right;
     border-radius: 50%;
+    width: 30px;
+    height: 30px;
 }
 .pop-up-signin-signup form img:hover{
     border: 3px solid green;
     border-radius: 49%;
 }
-.pop-up-signin-signup form label{
+.pop-up-signin-signup form .row div label{
     color: white;
-    text-align: center;
+    text-align: left;
     width: 100%;
 }
-.pop-up-signin-signup form p{
-    text-align: center;
+.pop-up-signin-signup form .row div p{
+    text-align: left;
     color: white;
     padding-top: 20px;
 }

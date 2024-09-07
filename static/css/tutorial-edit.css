@@ -42,3 +42,10 @@
     margin: auto;
     border: none;
 }
+
+.create-topic-pop-up{
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: #555;
+    padding: 10px;
+    border-radius: 10px;
+}

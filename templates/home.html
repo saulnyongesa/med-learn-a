@@ -12,12 +12,91 @@
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <link rel="stylesheet" href="{% static 'css/student-home.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
-     
+
 </head>
 
 <body class="bg-light text-dark" style="font-family: 'Roboto', sans-serif;">
     {% include 'header.html' %}
     {% load crispy_forms_filters %}
+    <!-- Signup Signin form  -->
+    <section id="pop-up-signin-signup" class="pop-up-signin-signup container-fluid d-none">
+        <!-- Signin form  -->
+        <form id="pop-up-signin-form" class="d-block m-auto w-100 p-4" action="{% url 'sign-in-url' %}" method="post">
+            <img id="pop-up-signin-signup-hide-btn" class="bg-light" src="../static/images/bar-close.svg" alt="Close">
+            <h3 class="text-center text-success">LOGIN</h3>
+            {% csrf_token %}
+            <label for="username" class="w-100">
+                Username <br>
+                <input class="form-control" type="text" name="username" id="email">
+            </label> <br>
+            <label for="password" class="w-100">
+                Password <br>
+                <input class="form-control" type="password" name="password" id="password">
+            </label>
+            <input class="form-control btn-success" type="submit" value="Proceed">
+            <p class="text-center">
+                <a class="btn  text-info" href="{% url 'reset_password' %}">Forgot password</a>
+            </p>
+            <p class="text-center">
+                You Don't Have An Account?
+                <a class="btn  text-info " id="pop-up-signup-form-btn">Signup</a>
+            </p>
+        </form>
+        <!-- Sign up form  -->
+        <form id="pop-up-signup-form" class="d-none m-auto w-100 p-4" action="{% url 'sign-up-url' %}" method="post">
+            <img id="pop-up-signin-signup-hide-btn2" class="bg-light" src="../static/images/bar-close.svg" alt="Close">
+            <h3 class="text-center text-success">SIGNUP</h3>
+            {% csrf_token %}
+            <div class="w-100 m-auto row">
+                <div class="col-sm-12 col-md-8">
+                    <h3 class="text-center text-white">Personal Information</h3>
+                    {{form|crispy}}
+                </div>
+                <div class="col-sm-12 col-md-4">
+                    <h3 class="text-center text-white">Authentication</h3>
+                    <label for="user_type">
+                        User type<sup>* </sup> <br>
+                        <select class="form-control" name="user-type" id="user_type" required>
+                            <option value="">Who are you? Choose Below.</option>
+                            <option value="1">Student</option>
+                            <option value="0">Trainer/Author</option>
+                        </select>
+                    </label>
+                    
+                    <label for="reg-number" id="reg-number-label" class="d-none">
+                        Enter registration number<sup>* </sup> <br>
+                        <input class="form-control" type="text" name="reg-number" id="reg-number-input" placeholder="Enter registration number">
+                    </label>     
+                    <label for="lecturer" id="lecturer-label" class="d-none">
+                        Lecturer Username<sup>* </sup> <br>
+                        <input class="form-control" type="text" name="lecturer" id="lecturer-input" placeholder="Enter Lecturer Username">
+                    </label>    
+                                        
+                    <p id="password-error1" class="w-100 text-danger text-center d-none"></p>
+                    
+                    <label for="password">
+                        Password <br>
+                        <input class="form-control" type="password" name="password" id="password" required>
+                    </label>
+                    
+                    <p id="password-error2" class="w-100 text-danger text-center d-none"></p>
+                    
+                    <label for="confirm-password">
+                        Re-type Password <br>
+                        <input class="form-control" type="password" name="confirm-password" id="confirm-password" required>
+                    </label>
+                    
+                    <p class="text-center">
+                        Have An Account? <br>
+                        <a class="btn btn-link text-info" id="pop-up-signin-form-btn">Signin</a>
+                    </p>
+                </div>
+            </div>
+            <input class="form-control btn-success" type="submit" value="Submit">
+        </form>
+        
+    </section>
+    <!-- Signup Signin End  -->
 
     <!-- Banner Section -->
     <section class="banner">
@@ -31,17 +110,17 @@
     <!-- Flex Features Section -->
     <section class="container flex-features">
         <div class="feature-card">
-            <img src="{% static 'images/quality.svg' %}" alt="Feature 1">
+            <img src="{% static 'images/quality.jpg' %}" alt="Feature 1">
             <h3>High-Quality Tutorials</h3>
             <p>Access a wide range of tutorials curated by professionals.</p>
         </div>
         <div class="feature-card">
-            <img src="{% static 'images/learn.svg' %}" alt="Feature 2">
+            <img src="{% static 'images/learn.jpg' %}" alt="Feature 2">
             <h3>Learn at Your Pace</h3>
             <p>Study at your convenience with our flexible learning schedule.</p>
         </div>
         <div class="feature-card">
-            <img src="{% static 'images/guide.svg' %}" alt="Feature 3">
+            <img src="{% static 'images/guide.jpg' %}" alt="Feature 3">
             <h3>Expert Guidance</h3>
             <p>Get guidance from medical experts with years of experience.</p>
         </div>
@@ -106,8 +185,9 @@
                 <div class="card shadow-sm h-100 ">
                     <div class="card-body">
                         <h5 class="card-title font-weight-bold">{{ tutorial.name }}</h5>
-                        <p class="card-text">{{ tutorial.description|slice:":100" }}{% if tutorial.description|length > 100 %}...{% endif %}</p>
-                        <a href="{% url 'student-tutorial-url' tutorial.id %}" class="btn btn-success w-100 mt-3">Open Tutorial</a>
+                        <p class="card-text">{{ tutorial.description|slice:":100" }} {% if tutorial.description|length > 100 %}...{% endif %}</p>
+                        <a href="{% url 'student-tutorial-url' tutorial.id %}" class="btn btn-success w-100 mt-3">Open
+                            Tutorial</a>
                     </div>
                     <div class="card-footer text-muted">
                         Publisher: {{ tutorial.user }}
@@ -125,7 +205,6 @@
     {% endif %}
 
     {% include 'footer.html' %}
-
     <script src="{% static 'js/global.js' %}"></script>
     <script src="{% static 'js/home.js' %}"></script>
     <script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>

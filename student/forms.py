@@ -37,5 +37,4 @@ class UserSignUpForm(forms.ModelForm):
             'username',
             'phone',
             'email',
-            'are_you_a_student',
         ]

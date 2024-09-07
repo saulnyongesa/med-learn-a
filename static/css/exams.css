@@ -5,7 +5,9 @@
     z-index: 1000;
 }
 .create-cat-pop-up-main div form{
-    background-color: black;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: #555;
+    padding: 10px;
 }
 .create-cat-pop-up-main div img{
     position: relative;
@@ -57,5 +59,13 @@
 }
 .cat-main .card .card-body p{
    text-align: justify;
+    color: white;
+}
+
+
+.result-holder{
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    background-color: #555;
+    border-radius: 10px;
     color: white;
 }

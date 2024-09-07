@@ -13,85 +13,121 @@
 </head>
 
 <body class="">
-{% include 'author/header.html' %}
-{% for message in messages %}
+    {% include 'author/header.html' %}
+    {% for message in messages %}
     <p class="alert alert-dismissible bg-info text-center m-auto" style="width: 90%; margin-bottom: 10px">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <strong {% if message.tags %} class="{{ message.tags }} text-capitalize" {% endif %}>
             {{ message }}
         </strong>
     </p>
-{% endfor %}
-<!--Create A Tutorial  -->
-<section id="create-tutorial-pop-up" class="create-tutorial-pop-up-main container-fluid d-none">
-    <div id="create-tutorial-pop-up-inner" class="d-block m-auto w-100 p-2">
-        <img id="create-tutorial-pop-up-hide-btn" class="bg-light" src="{% static 'images/bar-close.svg '%}"
-             alt="Close">
-        <h3 class="text-center text-success">CREATE TUTORIAL</h3>
-        {% csrf_token %}
-        <h2 class="text-left text-white">
-            Type Tutorial Name <br>
-            <input class="form-control" type="text" id="create-tutorial-name">
-        </h2> <br>
-        <h2 class="text-left text-white">
-            Type Brief Description <br>
-            <textarea class="w-100 p-2" id="create-tutorial-description" rows="10"></textarea>
-        </h2>
+    {% endfor %}
+    <!--Create A Tutorial  -->
+    <section id="create-tutorial-pop-up" class="create-tutorial-pop-up-main container-fluid d-none">
+        <div id="create-tutorial-pop-up-inner" class="d-block m-auto w-75 p-2">
+            <img id="create-tutorial-pop-up-hide-btn" class="bg-light" src="../../static/images/bar-close.svg"
+                alt="Close">
+            <h3 class="text-center text-success">CREATE TUTORIAL</h3>
+            {% csrf_token %}
+            <h2 class="text-left text-white">
+                Type Tutorial Name <br>
+                <input class="form-control" type="text" id="create-tutorial-name">
+            </h2> <br>
+            <h2 class="text-left text-white">
+                Type Brief Description <br>
+                <textarea class="w-100 p-2" id="create-tutorial-description" rows="5"></textarea>
+            </h2>
 
-        <button id="save-tutorial-created-btn" class="form-control btn-success">Save</button>
+            <button id="save-tutorial-created-btn" class="form-control btn-success">Save</button>
 
-    </div>
-</section>
-<!-- Create A Tutorial End  -->
-
-{#====My Tutorials Start====#}
-{% if my_tutorials %}
-    <section class="tutorial-container container">
-        <div class="tutorial-container-header bg-success pt-4 pb-4 pr-1 pl-1">
-            <h4>
-                Your Tutorials
-                <button id="create-tutorial-pop-up-show-btn" class="float-right btn btn-light">Create Tutorial</button>
-            </h4>
-            <input class="p-2 form-control" type="text" id="search" placeholder="Search Your Tutorial">
-            <h4 class="d-none" id="result-header">Search Result</h4>
-            <div id="result-holder">
-
-            </div>
-        </div>
-        <div class="tutorial-container-card-holder flex pt-4 pb-4">
-            <!-- Tutorial Start  -->
-            {% for tutorial in my_tutorials %}
-                <div class="card">
-                    <div class="card-footer">
-                        <h5 class="font-weight-bolder">
-                            {{ tutorial.name }}
-                            {% if tutorial.is_published %}
-                                <a class="btn btn-danger float-right" href="{% url 'conceal-publish-tutorial-url' tutorial.id %}">Conceal</a>
-                            {% else %}
-                                <a class="btn btn-danger float-right ml-1" href="{% url 'delete-tutorial-url' tutorial.id %}">Delete</a>
-                                <a class="btn btn-success float-right" href="{% url 'conceal-publish-tutorial-url' tutorial.id %}">Publish</a>
-                            {% endif %}
-                        </h5>
-                        <p>{{ tutorial.description|slice:":100" }}{% if tutorial.description|length > 100 %}...{% endif %}</p>
-                        <a class="btn btn-success w-100" href="{% url 'author-tutorial-url' tutorial.id %}">Open</a>
-                    </div>
-                </div>
-            {% endfor %}
-            <!-- Tutorial End  -->
         </div>
     </section>
-{% else %}
-    <h3 class="text-center w-100">You have not published any tutorial.</h3>
-    <div class="w-100 d-flex">
-        <button id="create-tutorial-pop-up-show-btn" class="btn btn-secondary m-auto">Create Tutorial</button>    </div>
-{% endif %}
-{#====My Tutorials End====#}
-{% include 'footer.html' %}
-<script src="{% static 'js/author-indext.js' %}"></script>
-<script src="{% static 'js/global.js' %}"></script>
-<script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>
-<script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
-<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+    <!-- Create A Tutorial End  -->
+
+    {#====My Tutorials Start====#}
+    <!-- Tutorials Container -->
+    <section class="container mt-5">
+        <div class="row">
+            <!-- My Tutorials Section -->
+            <div class="col-md-6 col-lg-8 mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="text-info">
+                        My Tutorials
+                        <button id="create-tutorial-pop-up-show-btn" class="float-right btn btn-secondary ml-3">Create</button>
+                    </h4>
+                    <input type="text" id="search" class="form-control w-50" placeholder="Search Tutorial">
+                </div>
+                <div id="result-holder">
+                    <h4 id="result-header" class="d-none">Search Result</h4>
+                </div>
+                <div class="row">
+                    {% if my_tutorials %}
+                    {% for tutorial in my_tutorials %}
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-lg border-light">
+                            <div class="card-body">
+                                <h5 class="card-title font-weight-bold">{{ tutorial.name }}</h5>
+                                <p class="card-text">{{ tutorial.description|slice:":100" }}{% if tutorial.description|length > 100 %}...{% endif %}</p>
+                            </div>
+                            <div class="card-footer text-muted d-flex justify-content-between align-items-center">
+                                <a href="{% url 'author-tutorial-url' tutorial.id %}" class="btn btn-info">View</a>
+                                {% if tutorial.is_published %}
+                                <a class="btn btn-danger float-right"
+                                    href="{% url 'conceal-publish-tutorial-url' tutorial.id %}">Conceal</a>
+                                {% else %}
+                                <a class="btn btn-success float-right"
+                                    href="{% url 'conceal-publish-tutorial-url' tutorial.id %}">Publish</a>
+                                {% endif %}
+                            </div>
+                            <div class="ml-1 w-100 text-center">
+                                 <a class="btn btn-link text-danger "
+                            href="{% url 'delete-tutorial-url' tutorial.id %}">Delete</a>
+                            </div>                           
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <h4 class="d-flex justify-content-center align-items-center w-100" style="min-height: 50vh;">You have not published any tutorial.</h4>
+                    {% endif %}
+                </div>
+            </div>
+            <!--Pending approvals Section -->
+            <div class="col-md-6 col-lg-4 mb-4">
+                <h4 class="text-success mb-4">Pending Student Approvals</h4>
+                <div class="row overflow-auto" style="height: 75vh;">
+                    {% if approvals %}
+                    {% for approval in approvals %}
+                    <div class="col-12 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                {% for student in students %}
+                                {% if student.registration_number == approval.registration_number %}
+                                <h5 class="card-title font-weight-bold text-capitalize">{{ student.last_name }} {{ student.first_name }}</h5>
+                                <p class="card-text">{{ student.registration_number }}</p>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="card-footer text-muted">
+                                <a href="" class="btn btn-success btn-block">Approve</a>
+                                <a href="" class="btn btn-danger btn-block mt-2">Decline</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <h4 class="d-flex justify-content-center align-items-center w-100" style="min-height: 50vh;">No Approval Requests.</h4>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+    {#====My Tutorials End====#}
+    {% include 'footer.html' %}
+    <script src="{% static 'js/author-indext.js' %}"></script>
+    <script src="{% static 'js/global.js' %}"></script>
+    <script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
 </body>
 
 </html>
