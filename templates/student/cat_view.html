@@ -10,9 +10,20 @@
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <link rel="stylesheet" href="{% static 'css/exams.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css">
+
 </head>
 
 <body>
+<<<<<<< HEAD
+    {% include 'student/header.html' %}
+    
+    <!-- Display Messages -->
+    {% for message in messages %}
+        <div class="alert alert-info alert-dismissible fade show text-center mx-auto w-75" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+=======
 {% include 'student/header.html' %}
 {% for message in messages %}
     <p class="alert alert-dismissible bg-info text-center m-auto" style="width: 90%; margin-bottom: 10px">
@@ -35,73 +46,109 @@
                     <p class="text-info font-weight-bolder" id="remaining-time"></p> <br>
                 </span>
             </h3>
+>>>>>>> upstream/master
         </div>
-        {% for question in questions %}
-            <div class="card-body bg-dark m-2">
-                <h3>{{ question.question }}</h3>
-                <form id="form-{{ question.id }}" class="w-100" method="post">
-                    {% csrf_token %}
-                    {% for answer in answers %}
-                        {% if answer.question == question %}
-                            <label for="answer">
-                                <input
-                                        type="radio"
-                                        value="{{ answer.id }}"
-                                        name="answer-id"
-                                        {% for response in  responses %}
-                                            {% if response.answer == answer %}
-                                                {% if response %}
-                                        checked
-                                                {% endif %}
-                                            {% endif %}
-                                        {% endfor %}
-                                        {% if end_time_check  %}
-                                        disabled
-                                        {% endif %}
-                                >
-                                {{ answer.answer }}
-                            </label> <br>
-                        {% endif %}
-                    {% endfor %}
-                    <p id="saved-{{ question.id }}" class="text-success d-none">Saved</p>
-                </form>
+    {% endfor %}
+
+    <section class="container py-4">
+        <!-- Course Content Start -->
+        <div class="card shadow-lg">
+            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">{{ cat.name }}</h3>
+                <div class="text-end bg-dark text-white shadow-lg p-3 rounded border-lg">
+                    <span class="badge bg-dark text-primary ">Time </span> <br> 
+                    <p class="mt-2">
+                        <i class="bi bi-clock-fill"></i> Start Time: <strong>{{ cat.start }}</strong>
+                    </p>
+                     
+                    <p class="mt-2">
+                        <i class="bi bi-hourglass-bottom"></i> End Time: <strong>{{ cat.end }}</strong>
+                    </p>
+                    <p class="mt-2">
+                        <i class="bi bi-hourglass-split text-warning"></i> 
+                        <span class="text-warning" id="remaining-time"></span>
+                    </p>
+                </div>
+                
             </div>
-        {% endfor %}
-        <div class="d-flex">
-            {% if not end_time_check  %}
-                <a href="{% url 'student-cat-submit-url' cat.id %}" class="btn btn-success m-auto">Submit</a>
-            {% endif %}
+
+            <!-- Questions Loop -->
+            <div class="card-body">
+                {% for question in questions %}
+                    <div class="mb-4 p-3 bg-light rounded shadow-sm">
+                        <h4 class="mb-3">{{ question.question }}</h4>
+                        <form id="form-{{ question.id }}" class="w-100" method="post">
+                            {% csrf_token %}
+                            {% for answer in answers %}
+                                {% if answer.question == question %}
+                                    <div class="form-check mb-2">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="answer-id-{{ question.id }}"
+                                            value="{{ answer.id }}"
+                                            id="answer-{{ answer.id }}"
+                                            {% for response in responses %}
+                                                {% if response.answer == answer %}
+                                                    checked
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if end_time_check %}
+                                                disabled
+                                            {% endif %}
+                                        >
+                                        <label class="form-check-label" for="answer-{{ answer.id }}">
+                                            {{ answer.answer }}
+                                        </label>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                            <p id="saved-{{ question.id }}" class="text-success d-none">Saved</p>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="card-footer text-center">
+                {% if not end_time_check %}
+                    <a href="{% url 'student-cat-submit-url' cat.id %}" class="btn btn-success px-4 py-2">Submit</a>
+                {% endif %}
+            </div>
         </div>
-    </div>
+        <!-- Course Content End -->
+    </section>
 
-    <!-- Course Content End -->
-</section>
+    {% include 'footer.html' %}
 
-{% include 'footer.html' %}
-<script>
-    // Convert the Django datetime to a JavaScript Date object
-    var endDateTime = new Date("{{ cat.end|date:'Y-m-d H:i:s' }}").getTime();
-    function updateRemainingTime() {
-        var now = new Date().getTime();
-        var timeRemaining = endDateTime - now;
-        if (timeRemaining > 0) {
-            var minutesRemaining = Math.floor(timeRemaining / (1000 * 60));
-            document.getElementById('remaining-time').innerText = "Time Left: " + minutesRemaining + " minutes";
-        } else {
-            document.getElementById('remaining-time').innerText = "Time has ended.";
-            window.location = '/Student/Cat/Home/'
+    <!-- JavaScript to handle the remaining time -->
+    <script>
+        var endDateTime = new Date("{{ cat.end|date:'Y-m-d H:i:s' }}").getTime();
+
+        function updateRemainingTime() {
+            var now = new Date().getTime();
+            var timeRemaining = endDateTime - now;
+            if (timeRemaining > 0) {
+                var minutesRemaining = Math.floor(timeRemaining / (1000 * 60));
+                document.getElementById('remaining-time').innerText = "Time Left: " + minutesRemaining + " minutes";
+            } else {
+                document.getElementById('remaining-time').innerText = "Time has ended.";
+                window.location = '/Student/Cat/Home/';
+            }
         }
-    }
-    // Update the remaining time every minute
-    setInterval(updateRemainingTime, 60000);
-    // Initial update
-    updateRemainingTime();
-</script>
-<script src="{% static 'js/global.js' %}"></script>
-<script src="{% static 'js/submit_cat.js' %}"></script>
-<script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>
-<script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
-<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+
+        // Update the remaining time every minute
+        setInterval(updateRemainingTime, 60000);
+        // Initial update
+        updateRemainingTime();
+    </script>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/global.js' %}"></script>
+    <script src="{% static 'js/submit_cat.js' %}"></script>
+    <script src="{% static 'bootstrap/js/jquery-3.4.0.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
 </body>
 
 </html>

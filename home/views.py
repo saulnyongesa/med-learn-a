@@ -8,7 +8,6 @@ from django.db.models import Q
 
 
 # Create your views here.
-
 def home(request):
     tutorials = Tutorial.objects.filter(
         is_published=True
